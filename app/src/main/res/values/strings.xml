@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TodoApp</string>
+    <string name="Add_Item">Add</string>
+    <string name="textbox">Add New Items</string>
+    <string name="title_activity_edit_item">EditItem</string>
+    <string name="Save">Save</string>
+</resources>
