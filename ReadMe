@@ -1,6 +1,6 @@
 This is a todo App that can
 1. Add items on clicking Add button
-Remove items on long press over the items in list
-Edit items by selecting an item in list
-Save the updated item by selecting Save button
+2.Remove items on long press over the items in list
+3.Edit items by selecting an item in list
+4.Save the updated item by selecting Save button
 
