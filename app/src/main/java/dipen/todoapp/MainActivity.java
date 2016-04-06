@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Button btnaddNewItem;
+    Button btnBlank;
     EditText etNewItem;
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
@@ -30,20 +31,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         btnaddNewItem = (Button) findViewById(R.id.btn_AddItem);
+        btnBlank = (Button) findViewById(R.id.button_Blank);
         etNewItem = (EditText) findViewById(R.id.et_NewItem);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
-
+        //check for existing items and read them
         readItems();
+        //attach adapter the listview
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
 
+        //click listener's
         setupButtonOnClickListener();
         setupListViewListener();
     }
 
     private void setupListViewListener() {
 
+        //listener to edit items
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -52,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //listener to remove items from list
         lvItems.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
-
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
                         items.remove(position);
@@ -68,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     private void launchEditItemActivity(String editItemText) {
         Intent intent = new Intent(this, EditItemActivity.class);
         intent.putExtra("editText", editItemText);
-        //startActivity(intent);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
@@ -95,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.btn_AddItem:
                         OnAddNewItem(v);
                         break;
+                    case R.id.button_Blank:
+                        OnBlankBtnPress(v);
+                        break;
                     default:
                         break;
                 }
@@ -102,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
         };
 
         btnaddNewItem.setOnClickListener(btnClickListener);
+    }
+
+    private void OnBlankBtnPress(View v) {
+       /* Intent intetBlank = new Intent(this,BlankActivity.class);
+        startActivity(intetBlank);*/
     }
 
     private void OnAddNewItem(View view) {

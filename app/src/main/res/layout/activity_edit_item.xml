@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,58 +9,57 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="dipen.todoapp.EditItemActivity">
-    
+
 
     <ImageButton
+        android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_goback"
-        android:background="@null"
-        android:id="@+id/backButton"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@null"
+        android:src="@drawable/ic_goback" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Notes"
-        android:editable="false"
-        android:id="@+id/textView"
         android:layout_alignBottom="@+id/backButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:editable="false"
+        android:text="Notes"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:paddingTop="3dp"
-        android:background="@color/colorPrimary"
-        android:layout_below="@+id/backButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/view" />
+        android:layout_below="@+id/backButton"
+        android:background="@color/colorPrimary"
+        android:paddingTop="3dp" />
 
     <EditText
+        android:id="@+id/editedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editedText"
-        android:layout_below="@+id/textView"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="42dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="42dp" />
 
     <Button
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="@string/Save"
         android:id="@+id/btn_Save"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/editedText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
-
-
+        android:layout_marginTop="32dp"
+        android:background="@color/BtnBackground"
+        android:text="@string/Save" />
 
 </RelativeLayout>

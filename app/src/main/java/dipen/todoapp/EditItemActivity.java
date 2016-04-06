@@ -22,8 +22,8 @@ public class EditItemActivity extends AppCompatActivity {
         saveBtn = (Button) findViewById(R.id.btn_Save);
         String textToEdit = getIntent().getStringExtra("editText");
         editedTextVal = (EditText)findViewById(R.id.editedText);
-
         editedTextVal.setText(textToEdit);
+        editedTextVal.setSelection(textToEdit.length());
 
 
         View.OnClickListener btnClickListener = new View.OnClickListener() {

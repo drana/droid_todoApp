@@ -40,6 +40,7 @@
     <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:background="@color/BtnBackground"
         android:text="@string/Add_Item"
         android:id="@+id/btn_AddItem"
         android:layout_alignParentBottom="true"
@@ -58,7 +59,16 @@
         android:layout_toStartOf="@+id/btn_AddItem"
         android:layout_alignTop="@+id/btn_AddItem" />
 
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button_Blank"
+        android:textSize="10sp"
+        android:layout_toEndOf="@+id/et_NewItem"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/viewLine"
+        android:layout_toRightOf="@+id/et_NewItem" />
 
 
 </RelativeLayout>
