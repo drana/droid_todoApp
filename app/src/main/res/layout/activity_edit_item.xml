@@ -29,6 +29,7 @@
         android:layout_centerHorizontal="true"
         android:editable="false"
         android:text="Note"
+        android:clickable="false"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <View
