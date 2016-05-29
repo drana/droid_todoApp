@@ -1,9 +1,11 @@
 package dipen.todoapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -108,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void OnAddNewItem(View view) {
+        //hide keyboard onclick
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
         etNewItem = (EditText) findViewById(R.id.et_NewItem);
         String newItemText = "";
         if(etNewItem != null) {
@@ -116,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         itemsAdapter.add(newItemText);
         etNewItem.setText("");
         writeItems();
+
     }
 
     private void readItems(){

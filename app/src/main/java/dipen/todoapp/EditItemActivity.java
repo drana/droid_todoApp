@@ -23,10 +23,11 @@ public class EditItemActivity extends AppCompatActivity {
         backBtn = (ImageButton) findViewById(R.id.backButton);
         saveBtn = (Button) findViewById(R.id.btn_Save);
         String textToEdit = getIntent().getStringExtra("editText");
+
         editedTextVal = (EditText)findViewById(R.id.editedText);
+
         editedTextVal.setText(textToEdit);
         editedTextVal.setSelection(textToEdit.length());
-
 
         View.OnClickListener btnClickListener = new View.OnClickListener() {
             @Override
@@ -41,6 +42,11 @@ public class EditItemActivity extends AppCompatActivity {
                         data.putExtra("saveEditedText",editedTextVal.getText().toString());
                         data.putExtra("code", 20);
                         setResult(RESULT_OK, data);
+                        InputMethodManager imm = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if(imm != null){
+                            imm.toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        }
                         finish();
                         break;
                     default:
