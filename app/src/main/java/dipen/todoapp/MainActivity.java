@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnaddNewItem = (Button) findViewById(R.id.btn_AddItem);
-        btnBlank = (Button) findViewById(R.id.button_Blank);
         etNewItem = (EditText) findViewById(R.id.et_NewItem);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
         //check for existing items and read them
@@ -100,9 +99,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.btn_AddItem:
                         OnAddNewItem(v);
                         break;
-                    case R.id.button_Blank:
-                        OnBlankBtnPress(v);
-                        break;
                     default:
                         break;
                 }
@@ -112,14 +108,12 @@ public class MainActivity extends AppCompatActivity {
         btnaddNewItem.setOnClickListener(btnClickListener);
     }
 
-    private void OnBlankBtnPress(View v) {
-       /* Intent intetBlank = new Intent(this,BlankActivity.class);
-        startActivity(intetBlank);*/
-    }
-
     private void OnAddNewItem(View view) {
         etNewItem = (EditText) findViewById(R.id.et_NewItem);
-        String newItemText = etNewItem.getText().toString();
+        String newItemText = "";
+        if(etNewItem != null) {
+             newItemText = etNewItem.getText().toString();
+        }
         itemsAdapter.add(newItemText);
         etNewItem.setText("");
         writeItems();
