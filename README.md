@@ -1,10 +1,9 @@
-# droid_todoApp
 
 # Pre-work - *todoApp*
 
-**todoApp** is a simple todo app for android that can add, remove and update items.
+**todoApp** is a simple android app that can add, remove and update items. 
 
-Submitted by: **Your Name Here**
+Submitted by: **Dipen Rana**
 
 Time spent: **8** hours spent in total
 
@@ -34,7 +33,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2016] [Dipen Rana]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
