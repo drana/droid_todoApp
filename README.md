@@ -24,7 +24,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-![Alt text](/relative/path/to/img.jpg?raw=true "Walkthrough")
+![Alt text](/droid_todoApp/blob/master/TodoApp_Readme.gif?raw=true "Walkthrough")
 `
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
