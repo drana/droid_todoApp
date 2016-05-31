@@ -17,6 +17,7 @@ The following **required** functionality is completed:
 
 The following **additional** features are implemented:
 
+* [x] The Add new item button is disabled if no text is entered into edit text box.
 * [x] Ability to go back to main screen from edit item screen.
 
 ## Video Walkthrough 
@@ -29,7 +30,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+1. I was unable to bring up the keyboard on edit screen by itself. User has to click on edit text box to bring up the keyboard. I am 
+   missing something in setting the focus of the edit text field. 
+2. I had to look for help to add empty text watcher for edit text box. 
 
 ## License
 
