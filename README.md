@@ -23,7 +23,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough](TodoApp_Readme.gif)
+![Video Walkthrough](TodoApp_Readme.gif
 `
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
