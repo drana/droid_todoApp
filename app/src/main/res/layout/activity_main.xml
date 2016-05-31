@@ -15,7 +15,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Notes"
         android:id="@+id/textView2"
-        android:editable="false"
         android:clickable="false"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -45,6 +44,7 @@
         android:background="@color/BtnBackground"
         android:text="@string/Add_Item"
         android:id="@+id/btn_AddItem"
+        android:enabled="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/textbox"
         android:id="@+id/et_NewItem"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionSend"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

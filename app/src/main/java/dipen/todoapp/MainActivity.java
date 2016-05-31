@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         lvItems.setAdapter(itemsAdapter);
 
         //click listener's
+        etNewItem.addTextChangedListener(newItemTextWatcher);
         setupButtonOnClickListener();
         setupListViewListener();
     }
@@ -79,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE){
-            String temp = data.getExtras().getString("saveEditedText");
-            updateEditedText(temp);
+            String updatedString = data.getExtras().getString("saveEditedText");
+            updateEditedText(updatedString);
         }
     }
 
-    private void updateEditedText(String temp) {
-        items.set(textPosition,temp);
+    private void updateEditedText(String updatedString) {
+
+        items.set(textPosition, updatedString);
         itemsAdapter.notifyDataSetChanged();
         writeItems();
     }
@@ -112,13 +117,17 @@ public class MainActivity extends AppCompatActivity {
     private void OnAddNewItem(View view) {
         //hide keyboard onclick
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         etNewItem = (EditText) findViewById(R.id.et_NewItem);
         String newItemText = "";
         if(etNewItem != null) {
              newItemText = etNewItem.getText().toString();
+        }
+        if(newItemText.isEmpty())
+        {
+            Toast.makeText(getApplicationContext(), "",
+                    Toast.LENGTH_SHORT).show();
         }
         itemsAdapter.add(newItemText);
         etNewItem.setText("");
@@ -148,5 +157,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //  create a textWatcher member to enable and disable AddNewItem button with respect to etNewItem
+    private TextWatcher newItemTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+            // check etNewItem for empty values
+            checkNewItemForEmptyValues();
+        }
+        void checkNewItemForEmptyValues(){
+            Button btnAddItem = (Button) findViewById(R.id.btn_AddItem);
+
+            String newItem = etNewItem.getText().toString();
+
+            if(newItem.equals("")){
+                btnAddItem.setEnabled(false);
+            } else {
+                btnAddItem.setEnabled(true);
+            }
+        }
+    };
 
 }
