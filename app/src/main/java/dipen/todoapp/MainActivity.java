@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EditItemFragment.EditItemDialogListener {
     Button btnaddNewItem;
     Button btnBlank;
     EditText etNewItem;
@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 textPosition = position;
                 //launchEditItemActivity(items.get(position).toString());
-                onShowEditItem(arrayofItems.get(position).toString());
+                arrayofItems.get(position).task.toString();
+
+                onShowEditItem(arrayofItems.get(position).task.toString());
             }
         });
 
@@ -95,15 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void onShowEditItem(String editedItem) {
         FragmentManager fm = getSupportFragmentManager();
-        EditItemFragment editItemFragment = EditItemFragment.newInstance("Some Title");
+        EditItemFragment editItemFragment = EditItemFragment.newInstance(editedItem);
         editItemFragment.show(fm,"fragment_edit_item");
 
-    }
-
-    private void launchEditItemActivity(String editItemText) {
-        Intent intent = new Intent(this, EditItemActivity.class);
-        intent.putExtra("editText", editItemText);
-        startActivityForResult(intent, REQUEST_CODE);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -114,7 +110,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateEditedText(String updatedString) {
-        //arrayofItems.set(textPosition,updatedString);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+        Calendar c = Calendar.getInstance();
+        String currentDate = sdf.format(new Date());
+        TodoItem newItem = new TodoItem(updatedString,currentDate);
+        //itemsAdapter.add(newItem);
+        //arrayofItems.get(position).task.toString();
+        arrayofItems.set(textPosition,newItem);
         itemsAdapter.notifyDataSetChanged();
         writeItems();
     }
@@ -217,5 +219,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public void onFinishEditDialog(String inputText) {
+
+        updateEditedText(inputText);
     }
+
+
+}
 
