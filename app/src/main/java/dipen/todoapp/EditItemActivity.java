@@ -1,10 +1,12 @@
 package dipen.todoapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,8 +24,10 @@ public class EditItemActivity extends AppCompatActivity {
         saveBtn = (Button) findViewById(R.id.btn_Save);
         String textToEdit = getIntent().getStringExtra("editText");
         editedTextVal = (EditText)findViewById(R.id.editedText);
-        editedTextVal.setText(textToEdit);
-        editedTextVal.setSelection(textToEdit.length());
+        if(textToEdit!=null){
+            editedTextVal.setText(textToEdit);
+            editedTextVal.setSelection(textToEdit.length());
+        }
 
 
         View.OnClickListener btnClickListener = new View.OnClickListener() {
@@ -35,10 +39,13 @@ public class EditItemActivity extends AppCompatActivity {
                         break;
 
                     case R.id.btn_Save:
+                        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         Intent data = new Intent();
                         data.putExtra("saveEditedText",editedTextVal.getText().toString());
                         data.putExtra("code", 20);
                         setResult(RESULT_OK, data);
+
                         finish();
                         break;
                     default:
