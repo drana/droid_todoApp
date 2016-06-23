@@ -220,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         }
     };
 
+    //callback from dialog fragment
     @Override
     public void onFinishEditDialog(String inputText) {
 
