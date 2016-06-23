@@ -56,8 +56,6 @@ public class EditItemFragment extends DialogFragment{
             public void onClick(View v) {
              try {
                  // When button is clicked, call up to owning activity.
-                 //String editedText = editedItem.getText().toString();
-
                  // Return input text back to activity through the implemented listener
                  EditItemDialogListener listener = (EditItemDialogListener) getActivity();
                  listener.onFinishEditDialog(editedItem.getText().toString());
@@ -71,16 +69,12 @@ public class EditItemFragment extends DialogFragment{
             }
         });
 
-        //return inflater.inflate(R.layout.fragment_edit_item, container);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //final View view = (LinearLayout)inflater.inflate(R.layout.fragment_edit_item, container, false);
-
 
         // Get field from view
         mEditText = (EditText) view.findViewById(R.id.editedText);

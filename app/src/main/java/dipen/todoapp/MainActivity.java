@@ -30,14 +30,10 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements EditItemFragment.EditItemDialogListener {
     Button btnaddNewItem;
-    Button btnBlank;
     EditText etNewItem;
-/*    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;*/
     ArrayList<TodoItem> arrayofItems = new ArrayList<TodoItem>();
     ItemsAdapter itemsAdapter;
     ListView lvItems;
-    private final int REQUEST_CODE = 20;
     private int textPosition = 0;
 
     @Override
@@ -102,13 +98,6 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
 
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE){
-            String temp = data.getExtras().getString("saveEditedText");
-            updateEditedText(temp);
-        }
-    }
-
     private void updateEditedText(String updatedString) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
         Calendar c = Calendar.getInstance();
@@ -138,11 +127,6 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         };
 
         btnaddNewItem.setOnClickListener(btnClickListener);
-    }
-
-    private void OnBlankBtnPress(View v) {
-       /* Intent intetBlank = new Intent(this,BlankActivity.class);
-        startActivity(intetBlank);*/
     }
 
     private void OnAddNewItem(View view) {
