@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dipen.todoapp.EditItemFragment"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <EditText
+        android:layout_width="600dp"
+        android:layout_height="75dp"
+        android:id="@+id/editedText"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/saveEditTextItem"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        android:background="@color/BtnBackground"
+        android:text="@string/Save"/>
+
+</LinearLayout>
