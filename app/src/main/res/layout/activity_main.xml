@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10sp"
-        android:paddingBottom="15sp"
+        android:paddingBottom="10dp"
         android:id="@+id/llToolbar"
         android:orientation="vertical">
 
@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:paddingBottom="5sp"
         android:orientation="vertical">
 
         <TextView
@@ -40,12 +42,11 @@
             android:id="@+id/btn_Edit"
             android:textSize="20sp"
             android:textAllCaps="false"
+
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="right|center"
-            android:paddingRight="10sp"
-            android:background="@null"
-            />
+            android:background="@color/bright_foreground_material_dark"
+            android:backgroundTint="#e0ffffff" />
 
         </RelativeLayout>
 
@@ -66,16 +67,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/llToolbar"
-        android:layout_above="@+id/et_NewItem"/>
+        android:layout_above="@+id/et_NewItem"
+        android:background="#ccffffff" />
 
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/Add_Item"
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@mipmap/ic_add_text_disabled"
         android:id="@+id/btn_AddItem"
-        android:enabled="false"
-        android:background="@drawable/roundbutton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

@@ -2,6 +2,7 @@ package dipen.todoapp;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,7 +33,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements EditItemFragment.EditItemDialogListener {
-    Button btnaddNewItem;
+    //Button btnaddNewItem;
+    ImageButton btnaddNewItem;
     Button btnEditItems;
     EditText etNewItem;
     CheckBox chkbxItem;
@@ -47,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnaddNewItem = (Button) findViewById(R.id.btn_AddItem);
+        //btnaddNewItem = (Button) findViewById(R.id.btn_AddItem);
+        btnaddNewItem = (ImageButton) findViewById(R.id.btn_AddItem);
         btnEditItems = (Button) findViewById(R.id.btn_Edit);
         etNewItem = (EditText) findViewById(R.id.et_NewItem);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
@@ -70,6 +73,10 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         etNewItem.addTextChangedListener(newItemTextWatcher);
         setupButtonOnClickListener();
         setupListViewListener();
+
+        //disable add new items button
+        btnaddNewItem.setEnabled(false);
+        btnaddNewItem.setClickable(false);
     }
 
     private void setupListViewListener() {
@@ -246,13 +253,17 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             checkNewItemForEmptyValues();
         }
         void checkNewItemForEmptyValues(){
-            Button btnAddItem = (Button)findViewById(R.id.btn_AddItem);
+            ImageButton btnAddItem = (ImageButton)findViewById(R.id.btn_AddItem);
 
             String newItem = etNewItem.getText().toString();
 
             if(newItem.equals("")){
+                btnAddItem.setBackground(getResources().getDrawable(R.mipmap.ic_add_text_disabled));
+                btnAddItem.setClickable(false);
                 btnAddItem.setEnabled(false);
             } else {
+                btnAddItem.setBackground(getResources().getDrawable(R.mipmap.ic_add_text_enabled));
+                btnAddItem.setClickable(true);
                 btnAddItem.setEnabled(true);
             }
         }
