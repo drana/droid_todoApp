@@ -3,36 +3,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dipen.todoapp.MainActivity">
+    tools:context="dipen.todoapp.MainActivity"
+    android:background="@color/MainBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Notes"
-        android:id="@+id/textView2"
-        android:clickable="false"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10sp"
+        android:paddingBottom="15sp"
+        android:id="@+id/llToolbar"
+        android:orientation="vertical">
+
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="@string/app_tittle"
+            android:textStyle="bold"
+            android:textColor="@color/TextColorToolbar"
+            android:id="@+id/textHeader"
+            android:clickable="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_button"
+            android:id="@+id/btn_Edit"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="right|center"
+            android:paddingRight="10sp"
+            android:background="@null"
+            />
+
+        </RelativeLayout>
+
+        <View
+        android:layout_width="wrap_content"
         android:layout_height="2dp"
-        android:paddingTop="3dp"
-        android:background="@color/colorPrimary"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/viewLine" />
+        android:background="@color/TextColorToolbar"
+        android:id="@+id/viewLine"
+        android:layout_gravity="bottom" />
+
+    </LinearLayout>
 
     <ListView
+        android:paddingLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lv_ListofItems"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/textView2"
-        android:layout_above="@+id/btn_AddItem" />
+        android:layout_below="@+id/llToolbar"
+        android:layout_above="@+id/et_NewItem"/>
 
 
     <Button
@@ -56,6 +90,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/btn_AddItem" />
+
 
 
 

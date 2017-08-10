@@ -5,6 +5,12 @@
     <color name="colorAccent">#FF4081</color>
     <color name="whiteBackground">#FFFFFF</color>
     <color name="Background">#000000</color>
-    <color name="BtnBackground">#007FFF</color>
+    <color name="BtnBackground">#FE716B</color>
+    <color name="NewBackground">#F7F9FC</color>
+    <color name="TextColor">#6CC4F6</color>
+    <color name="TextColorWhite">#F7F9FC</color>
+    <color name="MainBackground">#FBFCFD</color>
+    <color name="TextColorToolbar">#343A44</color>
+    #
 
 </resources>

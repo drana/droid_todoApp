@@ -10,9 +10,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
@@ -30,7 +33,10 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements EditItemFragment.EditItemDialogListener {
     Button btnaddNewItem;
+    Button btnEditItems;
     EditText etNewItem;
+    CheckBox chkbxItem;
+    TextView itemText;
     ArrayList<TodoItem> arrayofItems = new ArrayList<TodoItem>();
     ItemsAdapter itemsAdapter;
     ListView lvItems;
@@ -42,9 +48,11 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         setContentView(R.layout.activity_main);
 
         btnaddNewItem = (Button) findViewById(R.id.btn_AddItem);
-        //btnBlank = (Button) findViewById(R.id.button_Blank);
+        btnEditItems = (Button) findViewById(R.id.btn_Edit);
         etNewItem = (EditText) findViewById(R.id.et_NewItem);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
+        btnEditItems = (Button) findViewById(R.id.btn_Edit);
+
         //check for existing items and read them
         //check for existing items and read them
         try {
@@ -120,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
                     case R.id.btn_AddItem:
                         OnAddNewItem(v);
                         break;
+                    case R.id.btn_Edit:
+                        OnEditItems(v);
+                        break;
                     default:
                         break;
                 }
@@ -127,6 +138,49 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         };
 
         btnaddNewItem.setOnClickListener(btnClickListener);
+        btnEditItems.setOnClickListener(btnClickListener);
+    }
+
+    private void OnEditItems(View v) {
+
+        View child;
+        btnEditItems = (Button) findViewById(R.id.btn_Edit);
+        String buttonText = btnEditItems.getText().toString();
+
+        if(buttonText.equals("Edit")) {
+
+            for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
+
+                child = lvItems.getChildAt(i);
+                itemText = (TextView) child.findViewById(R.id.taskItem);
+                chkbxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+
+                final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.RIGHT_OF, R.id.checkboxItem);
+                itemText.setLayoutParams(params);
+
+                chkbxItem.setVisibility(View.VISIBLE);
+            }
+            btnEditItems.setText("Cancel");
+        }
+        else if (buttonText.equals("Cancel"))
+        {
+            for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
+
+                child = lvItems.getChildAt(i);
+                itemText = (TextView) child.findViewById(R.id.taskItem);
+                chkbxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+
+                final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.ALIGN_LEFT);
+                itemText.setLayoutParams(params);
+
+                chkbxItem.setVisibility(View.INVISIBLE);
+            }
+            btnEditItems.setText("Edit");
+        }
+
+
     }
 
     private void OnAddNewItem(View view) {
