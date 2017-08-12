@@ -13,18 +13,40 @@
             android:visibility="invisible"
             android:id="@+id/checkboxItem"/>
 
-        <TextView
-            android:id="@+id/taskItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textSize="20dp"
-            android:text="@string/todohint"
-            android:minLines="2"
-            android:textColor="@color/TextColor"
-            android:textStyle="bold"
-            android:lines="2"/>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/itemView">
+
+                <TextView
+                    android:id="@+id/taskItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:textSize="20dp"
+                    android:text="@string/todohint"
+                    android:minLines="2"
+                    android:textColor="@color/TextColor"
+                    android:textStyle="bold"
+                    android:lines="2"/>
+
+                <TextView
+                    android:id="@+id/taskDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:textSize="20dp"
+                    android:text="date"
+                    android:textColor="@color/TextColor"
+                    android:textStyle="bold"
+                    android:lines="1"/>
+        </GridLayout>
+
+
 
 </RelativeLayout>

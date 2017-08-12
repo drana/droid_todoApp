@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnEditItems;
     CheckBox checkboxItem;
     TextView textViewItem;
+    TextView textViewDate;
+    GridLayout gridItemView;
     TextView textViewItemsCount;
     ArrayList<TodoItem> arrayofItems = new ArrayList<TodoItem>();
     ItemsAdapter itemsAdapter;
@@ -201,13 +205,16 @@ public class MainActivity extends AppCompatActivity {
             for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
 
                 child = lvItems.getChildAt(i);
-                textViewItem = (TextView) child.findViewById(R.id.taskItem);
+                //textViewItem = (TextView) child.findViewById(R.id.taskItem);
+                //textViewDate = (TextView) child.findViewById(R.id.taskDate);
                 checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+                gridItemView = (GridLayout) child.findViewById(R.id.itemView);
 
                 final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.RIGHT_OF, R.id.checkboxItem);
-                textViewItem.setLayoutParams(params);
-
+                gridItemView.setLayoutParams(params);
+                //textViewItem.setLayoutParams(params);
+                //textViewDate.setLayoutParams(params);
                 checkboxItem.setVisibility(View.VISIBLE);
             }
             btnEditItems.setText(R.string.done_button);
@@ -217,13 +224,16 @@ public class MainActivity extends AppCompatActivity {
             for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
 
                 child = lvItems.getChildAt(i);
-                textViewItem = (TextView) child.findViewById(R.id.taskItem);
+                gridItemView = (GridLayout) child.findViewById(R.id.itemView);
+                //textViewItem = (TextView) child.findViewById(R.id.taskItem);
+                //textViewDate = (TextView) child.findViewById(R.id.taskDate);
                 checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
 
                 final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.ALIGN_LEFT);
-                textViewItem.setLayoutParams(params);
-
+                gridItemView.setLayoutParams(params);
+                //textViewItem.setLayoutParams(params);
+                //textViewDate.setLayoutParams(params);
                 checkboxItem.setVisibility(View.INVISIBLE);
             }
             btnEditItems.setText("Edit");

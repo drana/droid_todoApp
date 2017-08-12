@@ -30,10 +30,13 @@ public class ItemsAdapter extends ArrayAdapter<TodoItem>{
         }
         // Lookup view for data population
         TextView taskName = (TextView) convertView.findViewById(R.id.taskItem);
+        TextView taskDate = (TextView) convertView.findViewById(R.id.taskDate);
 
         // Populate the data into the template view using the data object
-        String task = todoItem.task + "\n" + todoItem.taskDate;
+        String task = todoItem.task; //+ "\n" + todoItem.taskDate;
+        String date = todoItem.taskDate;
         taskName.setText(task);
+        taskDate.setText(date);
 
         // Return the completed view to render on screen
         return convertView;
