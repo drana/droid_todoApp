@@ -2,9 +2,9 @@ package dipen.todoapp;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,6 +27,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements EditItemFragment.EditItemDialogListener {
     ImageButton btnAddNewItems;
+    ImageButton btnDeleteItems;
     Button btnEditItems;
     CheckBox checkboxItem;
     TextView textViewItem;
@@ -43,9 +44,11 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         setContentView(R.layout.activity_main);
         Intent intentAddItem = getIntent();
 
-        btnAddNewItems = (ImageButton) findViewById(R.id.btn_AddItem);
+        btnAddNewItems = (ImageButton) findViewById(R.id.imgbtn_AddItem);
+        btnDeleteItems = (ImageButton) findViewById(R.id.imgbtn_DeleteItem);
         btnEditItems = (Button) findViewById(R.id.btn_Edit);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
+
 
         //check for existing items and read them
         try {
@@ -65,17 +68,32 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         setupButtonOnClickListener();
         setupListViewListener();
 
+
         //retrieve the data from add new item activity
         String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
-        Calendar c = Calendar.getInstance();
         String currentDate = sdf.format(new Date());
         TodoItem newItem = new TodoItem(newItemAdded,currentDate);
-        itemsAdapter.add(newItem);
-        writeItems();
-
+        if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
+            itemsAdapter.add(newItem);
+            writeItems();
+        }
     }
+
+//    private void setupCheckBoxListner() {
+//
+//        checkboxItem.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CheckBox chkbx = (CheckBox)v;
+//                if(chkbx.isChecked()){
+//                    Boolean temp = true;
+//                    int temp1 = 0;
+//                }
+//            }
+//        });
+//    }
 
     private void setupListViewListener() {
 
@@ -102,6 +120,33 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
                         return true;
                     }
                 });
+
+    }
+
+    private void setupButtonOnClickListener() {
+
+        View.OnClickListener btnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switch (v.getId()){
+                    case R.id.imgbtn_AddItem:
+                        OnAddNewItem(v);
+                        break;
+                    case R.id.btn_Edit:
+                        OnEditItems(v);
+                        break;
+                    case R.id.imgbtn_DeleteItem:
+                        OnDeleteItems(v);
+                    default:
+                        break;
+                }
+            }
+        };
+
+        btnAddNewItems.setOnClickListener(btnClickListener);
+        btnEditItems.setOnClickListener(btnClickListener);
+        btnDeleteItems.setOnClickListener(btnClickListener);
     }
 
     private void onShowEditItem(String editedItem) {
@@ -116,34 +161,31 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         Calendar c = Calendar.getInstance();
         String currentDate = sdf.format(new Date());
         TodoItem newItem = new TodoItem(updatedString,currentDate);
-        //itemsAdapter.add(newItem);
-        //arrayofItems.get(position).task.toString();
+
         arrayofItems.set(textPosition,newItem);
         itemsAdapter.notifyDataSetChanged();
         writeItems();
     }
 
-    private void setupButtonOnClickListener() {
 
-        View.OnClickListener btnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                switch (v.getId()){
-                    case R.id.btn_AddItem:
-                        OnAddNewItem(v);
-                        break;
-                    case R.id.btn_Edit:
-                        OnEditItems(v);
-                        break;
-                    default:
-                        break;
-                }
+    private void OnDeleteItems(View v) {
+        View child;
+        for (int i = lvItems.getChildCount()-1;i >=0; i--){
+            child = lvItems.getChildAt(i);
+            checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+            Boolean temp = checkboxItem.isChecked();
+            int test = 0;
+            if(temp){
+                arrayofItems.remove(i);
+                itemsAdapter.notifyDataSetChanged();
+                writeItems();
+                checkboxItem.setChecked(false);
+
             }
-        };
 
-        btnAddNewItems.setOnClickListener(btnClickListener);
-        btnEditItems.setOnClickListener(btnClickListener);
+        }
+
     }
 
     private void OnEditItems(View v) {
@@ -202,9 +244,11 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             String filename = "todo.srl";
             ObjectInputStream input = new ObjectInputStream(new FileInputStream(new File(new File(getFilesDir(),"")+File.separator+filename)));
 
-            //ArrayList<TodoItem> itemsObject = (ArrayList<TodoItem>) input.readObject();
-            arrayofItems = (ArrayList<TodoItem>) input.readObject();
+            if(input !=null) {
+                arrayofItems = (ArrayList<TodoItem>) input.readObject();
+            }
             input.close();
+
 
         } catch (IOException e){
             e.printStackTrace();

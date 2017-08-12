@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/textViewHeader"
+        android:id="@+id/txtview_Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewLine"
-        android:layout_above="@+id/btn_AddItem"
+        android:layout_above="@+id/imgbtn_AddItem"
         android:layout_marginLeft="15sp"
         android:layout_marginTop="5sp"
         android:layout_marginBottom="5sp"
@@ -58,7 +58,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/noOfItems"
+        android:id="@+id/txtview_NoOfItems"
         android:layout_below="@+id/viewLineBottom"
         android:layout_centerInParent="true"
         android:layout_marginTop="15sp"
@@ -68,10 +68,20 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@mipmap/ic_add_text_enabled"
-        android:id="@+id/btn_AddItem"
+        android:id="@+id/imgbtn_AddItem"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@mipmap/ic_delete"
+        android:id="@+id/imgbtn_DeleteItem"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="60dp"/>
 
 
 

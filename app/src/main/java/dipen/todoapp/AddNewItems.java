@@ -19,6 +19,7 @@ public class AddNewItems extends AppCompatActivity {
     Button btnDone;
     EditText etNewItem;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
