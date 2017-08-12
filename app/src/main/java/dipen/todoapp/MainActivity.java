@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ItemsAdapter itemsAdapter;
     ListView lvItems;
     private int textPosition = 0;
+    private int count =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         //attach adapter the listview
         itemsAdapter  = new ItemsAdapter(this,arrayofItems );
         lvItems.setAdapter(itemsAdapter);
+        count = arrayofItems.size();
+        textViewItemsCount.setText(String.valueOf(count) + " Notes");
 
         //click listener's
         setupButtonOnClickListener();
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             TodoItem newItem = new TodoItem(newItemAdded,currentDate);
             if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
                 itemsAdapter.add(newItem);
-                int count = arrayofItems.size();
+                count = arrayofItems.size();
                 textViewItemsCount.setText(String.valueOf(count) + " Notes");
                 writeItems();
             }
@@ -189,7 +192,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
+        count = arrayofItems.size();
+        textViewItemsCount.setText(String.valueOf(count) + " Notes");
     }
 
     //edit button clicked
