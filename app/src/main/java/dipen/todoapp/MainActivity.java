@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnEditItems;
     CheckBox checkboxItem;
     TextView textViewItem;
+    TextView textViewItemsCount;
     ArrayList<TodoItem> arrayofItems = new ArrayList<TodoItem>();
     ItemsAdapter itemsAdapter;
     ListView lvItems;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         btnDeleteItems = (ImageButton) findViewById(R.id.imgbtn_DeleteItem);
         btnEditItems = (Button) findViewById(R.id.btn_Edit);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
+        textViewItemsCount = (TextView) findViewById(R.id.txtview_NoOfItems);
+
 
 
 
@@ -69,14 +72,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         //retrieve the data from add new item activity
-        String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
-        String currentDate = sdf.format(new Date());
-        TodoItem newItem = new TodoItem(newItemAdded,currentDate);
-        if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
-            itemsAdapter.add(newItem);
-            writeItems();
+        if(intentAddItem.hasExtra("Add_New_Item")){
+            String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
+            String currentDate = sdf.format(new Date());
+            TodoItem newItem = new TodoItem(newItemAdded,currentDate);
+            if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
+                itemsAdapter.add(newItem);
+                int count = arrayofItems.size();
+                textViewItemsCount.setText(String.valueOf(count) + " Notes");
+                writeItems();
+            }
         }
+
 
         //retrieve data from updated text
         if(getIntent().hasExtra("Update_New_Item")){
