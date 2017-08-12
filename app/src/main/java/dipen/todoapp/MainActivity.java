@@ -153,6 +153,16 @@ public class MainActivity extends AppCompatActivity {
         btnDeleteItems.setOnClickListener(btnClickListener);
     }
 
+    //add new item button clicked
+    private void OnAddNewItem(View view) {
+
+        Intent intent = new Intent(MainActivity.this, AddNewItems.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+    }
+
     //display updated todo item
     private void onShowEditItem(String editedItem, int position) {
 
@@ -164,6 +174,58 @@ public class MainActivity extends AppCompatActivity {
         intentExtra.putExtras(editbundle);
         //intentExtra.putExtra("Edit_Item",editedItem);
         startActivity(intentExtra);
+    }
+
+    //edit button clicked
+    private void OnEditItems(View v) {
+
+        btnDeleteItems.setEnabled(true);
+        btnEditItems = (Button) findViewById(R.id.btn_Edit);
+        String buttonText = btnEditItems.getText().toString();
+
+        if(buttonText.equals("Edit")) {
+            OnButtonClickEdit(v);
+        }
+        else if (buttonText.equals("Done")){
+            OnButtonClickDone(v);
+        }
+    }
+
+    private void OnButtonClickEdit(View v) {
+        View child;
+        for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
+
+            child = lvItems.getChildAt(i);
+            checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+            gridItemView = (GridLayout) child.findViewById(R.id.itemView);
+
+            final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.RIGHT_OF, R.id.checkboxItem);
+            gridItemView.setLayoutParams(params);
+            checkboxItem.setVisibility(View.VISIBLE);
+        }
+        btnAddNewItems.setVisibility(View.INVISIBLE);
+        btnDeleteItems.setVisibility(View.VISIBLE);
+        btnEditItems.setText(R.string.done_button);
+    }
+
+    private void OnButtonClickDone(View v) {
+        View child;
+        for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
+
+            child = lvItems.getChildAt(i);
+            gridItemView = (GridLayout) child.findViewById(R.id.itemView);
+            checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+            checkboxItem.setChecked(false);
+
+            final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_LEFT);
+            gridItemView.setLayoutParams(params);
+            checkboxItem.setVisibility(View.INVISIBLE);
+        }
+        btnAddNewItems.setVisibility(View.VISIBLE);
+        btnDeleteItems.setVisibility(View.INVISIBLE);
+        btnEditItems.setText("Edit");
     }
 
     //send todo item for update
@@ -190,69 +252,11 @@ public class MainActivity extends AppCompatActivity {
                 writeItems();
                 checkboxItem.setChecked(false);
             }
-
         }
+
+        OnButtonClickDone(v);
         count = arrayofItems.size();
         textViewItemsCount.setText(String.valueOf(count) + " Notes");
-    }
-
-    //edit button clicked
-    private void OnEditItems(View v) {
-
-        View child;
-        btnDeleteItems.setEnabled(true);
-        btnEditItems = (Button) findViewById(R.id.btn_Edit);
-        String buttonText = btnEditItems.getText().toString();
-
-        if(buttonText.equals("Edit")) {
-
-            for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
-
-                child = lvItems.getChildAt(i);
-                //textViewItem = (TextView) child.findViewById(R.id.taskItem);
-                //textViewDate = (TextView) child.findViewById(R.id.taskDate);
-                checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
-                gridItemView = (GridLayout) child.findViewById(R.id.itemView);
-
-                final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.RIGHT_OF, R.id.checkboxItem);
-                gridItemView.setLayoutParams(params);
-                //textViewItem.setLayoutParams(params);
-                //textViewDate.setLayoutParams(params);
-                checkboxItem.setVisibility(View.VISIBLE);
-            }
-            btnEditItems.setText(R.string.done_button);
-        }
-        else if (buttonText.equals("Done"))
-        {
-            for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
-
-                child = lvItems.getChildAt(i);
-                gridItemView = (GridLayout) child.findViewById(R.id.itemView);
-                //textViewItem = (TextView) child.findViewById(R.id.taskItem);
-                //textViewDate = (TextView) child.findViewById(R.id.taskDate);
-                checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
-
-                final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.ALIGN_LEFT);
-                gridItemView.setLayoutParams(params);
-                //textViewItem.setLayoutParams(params);
-                //textViewDate.setLayoutParams(params);
-                checkboxItem.setVisibility(View.INVISIBLE);
-            }
-            btnEditItems.setText("Edit");
-        }
-
-
-    }
-
-    //add new item button clicked
-    private void OnAddNewItem(View view) {
-
-        Intent intent = new Intent(MainActivity.this, AddNewItems.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
     }
 
