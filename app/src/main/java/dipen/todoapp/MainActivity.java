@@ -2,24 +2,17 @@ package dipen.todoapp;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,30 +26,27 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements EditItemFragment.EditItemDialogListener {
-    //Button btnaddNewItem;
-    ImageButton btnaddNewItem;
+    ImageButton btnAddNewItems;
     Button btnEditItems;
-    EditText etNewItem;
-    CheckBox chkbxItem;
-    TextView itemText;
+    CheckBox checkboxItem;
+    TextView textViewItem;
     ArrayList<TodoItem> arrayofItems = new ArrayList<TodoItem>();
     ItemsAdapter itemsAdapter;
     ListView lvItems;
     private int textPosition = 0;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intentAddItem = getIntent();
 
-        //btnaddNewItem = (Button) findViewById(R.id.btn_AddItem);
-        btnaddNewItem = (ImageButton) findViewById(R.id.btn_AddItem);
+        btnAddNewItems = (ImageButton) findViewById(R.id.btn_AddItem);
         btnEditItems = (Button) findViewById(R.id.btn_Edit);
-        etNewItem = (EditText) findViewById(R.id.et_NewItem);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
-        btnEditItems = (Button) findViewById(R.id.btn_Edit);
 
-        //check for existing items and read them
         //check for existing items and read them
         try {
             readItems();}
@@ -65,18 +55,26 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         }catch (IOException e) {
             e.printStackTrace();
         }
+
         //attach adapter the listview
         itemsAdapter  = new ItemsAdapter(this,arrayofItems );
         lvItems.setAdapter(itemsAdapter);
 
         //click listener's
-        etNewItem.addTextChangedListener(newItemTextWatcher);
+        //etNewItem.addTextChangedListener(newItemTextWatcher);
         setupButtonOnClickListener();
         setupListViewListener();
 
-        //disable add new items button
-        btnaddNewItem.setEnabled(false);
-        btnaddNewItem.setClickable(false);
+        //retrieve the data from add new item activity
+        String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+        Calendar c = Calendar.getInstance();
+        String currentDate = sdf.format(new Date());
+        TodoItem newItem = new TodoItem(newItemAdded,currentDate);
+        itemsAdapter.add(newItem);
+        writeItems();
+
     }
 
     private void setupListViewListener() {
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             }
         };
 
-        btnaddNewItem.setOnClickListener(btnClickListener);
+        btnAddNewItems.setOnClickListener(btnClickListener);
         btnEditItems.setOnClickListener(btnClickListener);
     }
 
@@ -159,14 +157,14 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
 
                 child = lvItems.getChildAt(i);
-                itemText = (TextView) child.findViewById(R.id.taskItem);
-                chkbxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+                textViewItem = (TextView) child.findViewById(R.id.taskItem);
+                checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
 
                 final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.RIGHT_OF, R.id.checkboxItem);
-                itemText.setLayoutParams(params);
+                textViewItem.setLayoutParams(params);
 
-                chkbxItem.setVisibility(View.VISIBLE);
+                checkboxItem.setVisibility(View.VISIBLE);
             }
             btnEditItems.setText("Cancel");
         }
@@ -175,14 +173,14 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
 
                 child = lvItems.getChildAt(i);
-                itemText = (TextView) child.findViewById(R.id.taskItem);
-                chkbxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
+                textViewItem = (TextView) child.findViewById(R.id.taskItem);
+                checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
 
                 final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.ALIGN_LEFT);
-                itemText.setLayoutParams(params);
+                textViewItem.setLayoutParams(params);
 
-                chkbxItem.setVisibility(View.INVISIBLE);
+                checkboxItem.setVisibility(View.INVISIBLE);
             }
             btnEditItems.setText("Edit");
         }
@@ -191,23 +189,12 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
     }
 
     private void OnAddNewItem(View view) {
-        etNewItem = (EditText) findViewById(R.id.et_NewItem);
-        String newItemText = "";
-        if(etNewItem != null) {
-            newItemText = etNewItem.getText().toString();
-        }
-        if(newItemText.isEmpty())
-        {
-            Toast.makeText(getApplicationContext(), "",
-                    Toast.LENGTH_SHORT).show();
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
-        Calendar c = Calendar.getInstance();
-        String currentDate = sdf.format(new Date());
-        TodoItem newItem = new TodoItem(newItemText,currentDate);
-        itemsAdapter.add(newItem);
-        etNewItem.setText("");
-        writeItems();
+
+        Intent intent = new Intent(MainActivity.this, AddNewItems.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
     }
 
     private void readItems() throws IOException, ClassNotFoundException{
@@ -236,45 +223,14 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         }
     }
 
-    //  create a textWatcher member to enable and disable AddNewItem button with respect to etNewItem
-    private TextWatcher newItemTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-            // check etNewItem for empty values
-            checkNewItemForEmptyValues();
-        }
-        void checkNewItemForEmptyValues(){
-            ImageButton btnAddItem = (ImageButton)findViewById(R.id.btn_AddItem);
-
-            String newItem = etNewItem.getText().toString();
-
-            if(newItem.equals("")){
-                btnAddItem.setBackground(getResources().getDrawable(R.mipmap.ic_add_text_disabled));
-                btnAddItem.setClickable(false);
-                btnAddItem.setEnabled(false);
-            } else {
-                btnAddItem.setBackground(getResources().getDrawable(R.mipmap.ic_add_text_enabled));
-                btnAddItem.setClickable(true);
-                btnAddItem.setEnabled(true);
-            }
-        }
-    };
-
     //callback from dialog fragment
     @Override
     public void onFinishEditDialog(String inputText) {
 
         updateEditedText(inputText);
     }
+
+
 
 
 }
