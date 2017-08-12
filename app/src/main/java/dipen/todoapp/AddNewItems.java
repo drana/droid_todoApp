@@ -5,6 +5,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,6 +19,7 @@ public class AddNewItems extends AppCompatActivity {
     ImageButton btnBack;
     Button btnDone;
     EditText etNewItem;
+    String isUpdateText = "0";
 
 
     @Override
@@ -27,9 +29,22 @@ public class AddNewItems extends AppCompatActivity {
 
         btnBack = (ImageButton)findViewById(R.id.btnGoBack);
         btnDone =(Button) findViewById(R.id.btnDoneNewItem);
+        etNewItem = (EditText)findViewById(R.id.editTextNewItems);
+        Intent intentEditItem = getIntent();
 
         //onclick listener
         setupButtonOnClickListener();
+
+        //edit text
+        String updateText = intentEditItem.getStringExtra("Edit_Item");
+
+        if(updateText !=null && !updateText.isEmpty()) {
+            etNewItem.setText(updateText);
+            etNewItem.requestFocus();
+            isUpdateText = "1";
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        }
+
 
     }
 
@@ -41,7 +56,15 @@ public class AddNewItems extends AppCompatActivity {
 
                 switch (v.getId()){
                     case R.id.btnDoneNewItem:
-                        OnDoneAddNewItem(v);
+                        if(isUpdateText.equals("1")) {
+                            // Return input text back to activity through the implemented listener
+                           OnUpdateText(v);
+                            break;
+                        }
+                        else if(isUpdateText.equals("0")) {
+                            OnDoneAddNewItem(v);
+                            break;
+                        }
                         break;
                     case R.id.btnGoBack:
                         OnGoBackToMain(v);
@@ -54,6 +77,23 @@ public class AddNewItems extends AppCompatActivity {
 
         btnDone.setOnClickListener(btnClickListener);
         btnBack.setOnClickListener(btnClickListener);
+    }
+
+    private void OnUpdateText(View v) {
+        String newItemText = "";
+        etNewItem = (EditText)findViewById(R.id.editTextNewItems);
+        if(etNewItem !=null) {
+            newItemText = etNewItem.getText().toString();
+        }
+        if(newItemText.isEmpty())
+        {
+            Toast.makeText(getApplicationContext(), "",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        Intent intentExtra = new Intent(this, MainActivity.class);
+        intentExtra.putExtra("Update_New_Item",newItemText);
+        startActivity(intentExtra);
     }
 
     //done adding new todo items
@@ -90,4 +130,6 @@ public class AddNewItems extends AppCompatActivity {
         finish();
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
+
+
 }

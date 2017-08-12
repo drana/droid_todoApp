@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             itemsAdapter.add(newItem);
             writeItems();
         }
+
+        String updatedTextItem = intentAddItem.getStringExtra("Update_New_Item");
+        if(updatedTextItem != null && !updatedTextItem.isEmpty()) {
+            updateEditedText(updatedTextItem);
+        }
     }
 
 //    private void setupCheckBoxListner() {
@@ -110,16 +115,16 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         });
 
         //listener to remove items from list
-        lvItems.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
-                        arrayofItems.remove(position);
-                        itemsAdapter.notifyDataSetChanged();
-                        writeItems();
-                        return true;
-                    }
-                });
+//        lvItems.setOnItemLongClickListener(
+//                new AdapterView.OnItemLongClickListener() {
+//                    @Override
+//                    public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
+//                        arrayofItems.remove(position);
+//                        itemsAdapter.notifyDataSetChanged();
+//                        writeItems();
+//                        return true;
+//                    }
+//                });
 
     }
 
@@ -150,9 +155,15 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
     }
 
     private void onShowEditItem(String editedItem) {
-        FragmentManager fm = getSupportFragmentManager();
-        EditItemFragment editItemFragment = EditItemFragment.newInstance(editedItem);
-        editItemFragment.show(fm,"fragment_edit_item");
+
+        Intent intentExtra = new Intent(this, AddNewItems.class);
+        intentExtra.putExtra("Edit_Item",editedItem);
+        startActivity(intentExtra);
+
+
+//        FragmentManager fm = getSupportFragmentManager();
+//        EditItemFragment editItemFragment = EditItemFragment.newInstance(editedItem);
+//        editItemFragment.show(fm,"fragment_edit_item");
 
     }
 
@@ -167,21 +178,16 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         writeItems();
     }
 
-
-
     private void OnDeleteItems(View v) {
         View child;
         for (int i = lvItems.getChildCount()-1;i >=0; i--){
             child = lvItems.getChildAt(i);
             checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
-            Boolean temp = checkboxItem.isChecked();
-            int test = 0;
-            if(temp){
+            if(checkboxItem.isChecked()){
                 arrayofItems.remove(i);
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
                 checkboxItem.setChecked(false);
-
             }
 
         }
