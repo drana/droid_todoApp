@@ -42,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent intentAddItem = getIntent();
 
+
         btnAddNewItems = (ImageButton) findViewById(R.id.imgbtn_AddItem);
         btnDeleteItems = (ImageButton) findViewById(R.id.imgbtn_DeleteItem);
         btnEditItems = (Button) findViewById(R.id.btn_Edit);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
+
 
 
         //check for existing items and read them
@@ -68,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
         //retrieve the data from add new item activity
         String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
-
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
         String currentDate = sdf.format(new Date());
         TodoItem newItem = new TodoItem(newItemAdded,currentDate);
@@ -77,10 +78,19 @@ public class MainActivity extends AppCompatActivity {
             writeItems();
         }
 
-        String updatedTextItem = intentAddItem.getStringExtra("Update_New_Item");
-        if(updatedTextItem != null && !updatedTextItem.isEmpty()) {
-            updateEditedText(updatedTextItem);
+        //retrieve data from updated text
+        if(getIntent().hasExtra("Update_New_Item")){
+
+            Bundle updatedbundle = getIntent().getExtras();
+            //String updatedTextItem = intentAddItem.getStringExtra("Update_New_Item");
+            String updatedTextItem = updatedbundle.getString("Update_New_Item");
+            textPosition = updatedbundle.getInt("Position");
+            if (updatedTextItem != null && !updatedTextItem.isEmpty()) {
+            updateEditedText(updatedTextItem, textPosition);
+            }
+
         }
+
 
         //disable delete
         btnDeleteItems.setEnabled(false);
@@ -96,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 textPosition = position;
                 //launchEditItemActivity(items.get(position).toString());
                 arrayofItems.get(position).task.toString();
-
-                onShowEditItem(arrayofItems.get(position).task.toString());
+                onShowEditItem(arrayofItems.get(position).task.toString(), position);
             }
         });
     }
@@ -130,21 +139,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //display updated todo item
-    private void onShowEditItem(String editedItem) {
+    private void onShowEditItem(String editedItem, int position) {
 
         Intent intentExtra = new Intent(this, AddNewItems.class);
-        intentExtra.putExtra("Edit_Item",editedItem);
+        Bundle editbundle = new Bundle();
+
+        editbundle.putInt("Position",position);
+        editbundle.putString("Edit_Item",editedItem);
+        intentExtra.putExtras(editbundle);
+        //intentExtra.putExtra("Edit_Item",editedItem);
         startActivity(intentExtra);
     }
 
     //send todo item for update
-    private void updateEditedText(String updatedString) {
+    private void updateEditedText(String updatedString,int position) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
         Calendar c = Calendar.getInstance();
         String currentDate = sdf.format(new Date());
         TodoItem newItem = new TodoItem(updatedString,currentDate);
 
-        arrayofItems.set(textPosition,newItem);
+        arrayofItems.set(position,newItem);
         itemsAdapter.notifyDataSetChanged();
         writeItems();
     }
@@ -188,9 +202,9 @@ public class MainActivity extends AppCompatActivity {
 
                 checkboxItem.setVisibility(View.VISIBLE);
             }
-            btnEditItems.setText("Cancel");
+            btnEditItems.setText(R.string.done_button);
         }
-        else if (buttonText.equals("Cancel"))
+        else if (buttonText.equals("Done"))
         {
             for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
 

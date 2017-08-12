@@ -20,17 +20,18 @@ public class AddNewItems extends AppCompatActivity {
     Button btnDone;
     EditText etNewItem;
     String isUpdateText = "0";
-
+    int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_items);
 
+
         btnBack = (ImageButton)findViewById(R.id.btnGoBack);
         btnDone =(Button) findViewById(R.id.btnDoneNewItem);
         etNewItem = (EditText)findViewById(R.id.editTextNewItems);
-        Intent intentEditItem = getIntent();
+
 
         //get focus and keyboard
         etNewItem.requestFocus();
@@ -40,16 +41,19 @@ public class AddNewItems extends AppCompatActivity {
         setupButtonOnClickListener();
 
         //edit text
-        String updateText = intentEditItem.getStringExtra("Edit_Item");
+        //String updateText = intentEditItem.getStringExtra("Edit_Item");
+        if(getIntent().hasExtra("Edit_Item")) {
+            Bundle editbundle = getIntent().getExtras();
 
-        if(updateText !=null && !updateText.isEmpty()) {
-            etNewItem.setText(updateText);
-            etNewItem.requestFocus();
-            isUpdateText = "1";
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            String updateText = editbundle.getString("Edit_Item");
+            position = editbundle.getInt("Position");
+            if(updateText !=null && !updateText.isEmpty()) {
+                isUpdateText = "1";
+                etNewItem.setText(updateText);
+                etNewItem.requestFocus();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            }
         }
-
-
     }
 
     // listeners for button clicks
@@ -87,7 +91,7 @@ public class AddNewItems extends AppCompatActivity {
     // send updated todo item
     private void OnUpdateText(View v) {
         String newItemText = "";
-        etNewItem = (EditText)findViewById(R.id.editTextNewItems);
+        //etNewItem = (EditText)findViewById(R.id.editTextNewItems);
         if(etNewItem !=null) {
             newItemText = etNewItem.getText().toString();
         }
@@ -98,7 +102,11 @@ public class AddNewItems extends AppCompatActivity {
         }
 
         Intent intentExtra = new Intent(this, MainActivity.class);
-        intentExtra.putExtra("Update_New_Item",newItemText);
+        Bundle updatebundle = new Bundle();
+        updatebundle.putInt("Position",position);
+        updatebundle.putString("Update_New_Item",newItemText);
+        intentExtra.putExtras(updatebundle);
+        //intentExtra.putExtra("Update_New_Item",newItemText);
         startActivity(intentExtra);
     }
 
