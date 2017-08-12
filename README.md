@@ -1,42 +1,59 @@
+# Pre-work - *ToDo*
 
-# Pre-work - *todoApp*
+**Name of your app** is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
 
-**todoApp** is a simple android app that can add, remove and update items. 
+Submitted by: **Your Name Here**
 
-Submitted by: **Dipen Rana**
-
-Time spent: **8** hours spent in total
+Time spent: **X** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-* [x] User can **successfully add and remove items** from the todo list
-* [x] User can **tap a todo item in the list and bring up an edit screen for the todo item** and then have any changes to the text reflected in the todo list.
-* [x] User can **persist todo items** and retrieve them properly on app restart
+* [ ] User can **successfully add and remove items** from the todo list
+* [ ] User can **tap a todo item in the list and bring up an edit screen for the todo item** and then have any changes to the text reflected in the todo list.
+* [ ] User can **persist todo items** and retrieve them properly on app restart
+
+The following **optional** features are implemented:
+
+* [ ] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
+* [ ] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
+* [ ] Add support for completion due dates for todo items (and display within listview item)
+* [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
+* [ ] Add support for selecting the priority of each todo item (and display in listview item)
+* [ ] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
 The following **additional** features are implemented:
 
-* [x] The Add new item button is disabled if no text is entered into edit text box.
-* [x] Ability to go back to main screen from edit item screen.
+* [ ] List anything else that you can get done to improve the app functionality!
 
-## Video Walkthrough 
+## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough](TodoApp_Walkthrough.gif)
-`
+<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+## Project Analysis
+
+As part of your pre-work submission, please reflect on the app and answer the following questions below:
+
+**Question 1:** "What are your reactions to the Android app development platform so far? Compare and contrast Android's approach to layouts and user interfaces in past platforms you've used."
+
+**Answer:** [Enter your answer here in a paragraph or two].
+
+**Question 2:** "Take a moment to reflect on the `ArrayAdapter` used in your pre-work. How would you describe an adapter in this context and what is its function in Android? Why do you think the adapter is important? Explain the purpose of the `convertView` in the `getView` method of the `ArrayAdapter`."
+
+**Answer:** [Enter your answer here in a paragraph or two].
 
 ## Notes
 
-1. I was unable to bring up the keyboard on edit screen by itself. User has to click on edit text box to bring up the keyboard. I am 
-   missing something in setting the focus of the edit text field. 
-2. I had to look for help to add empty text watcher for edit text box. 
+Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [2016] [Dipen Rana]
+    Copyright [yyyy] [name of copyright owner]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
