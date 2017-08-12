@@ -32,6 +32,10 @@ public class AddNewItems extends AppCompatActivity {
         etNewItem = (EditText)findViewById(R.id.editTextNewItems);
         Intent intentEditItem = getIntent();
 
+        //get focus and keyboard
+        etNewItem.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         //onclick listener
         setupButtonOnClickListener();
 

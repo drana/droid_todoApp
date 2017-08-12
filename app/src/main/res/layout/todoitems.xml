@@ -21,6 +21,7 @@
             android:layout_alignParentLeft="true"
             android:textSize="20dp"
             android:text="TextView"
+            android:minLines="2"
             android:textColor="@color/TextColor"
             android:textStyle="bold"
             android:layout_alignParentTop="true"/>

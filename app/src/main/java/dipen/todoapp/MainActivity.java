@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
     ListView lvItems;
     private int textPosition = 0;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         //retrieve the data from add new item activity
         String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
         String currentDate = sdf.format(new Date());
         TodoItem newItem = new TodoItem(newItemAdded,currentDate);
         if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
@@ -83,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         if(updatedTextItem != null && !updatedTextItem.isEmpty()) {
             updateEditedText(updatedTextItem);
         }
+
+        //disable delete
+        btnDeleteItems.setEnabled(false);
     }
 
     //listener for item list changes
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     //send todo item for update
     private void updateEditedText(String updatedString) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
         Calendar c = Calendar.getInstance();
         String currentDate = sdf.format(new Date());
         TodoItem newItem = new TodoItem(updatedString,currentDate);
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     private void OnEditItems(View v) {
 
         View child;
+        btnDeleteItems.setEnabled(true);
         btnEditItems = (Button) findViewById(R.id.btn_Edit);
         String buttonText = btnEditItems.getText().toString();
 
