@@ -48,6 +48,7 @@ public class AddNewItems extends AppCompatActivity {
 
     }
 
+    // listeners for button clicks
     private void setupButtonOnClickListener() {
 
         View.OnClickListener btnClickListener = new View.OnClickListener() {
@@ -79,6 +80,7 @@ public class AddNewItems extends AppCompatActivity {
         btnBack.setOnClickListener(btnClickListener);
     }
 
+    // send updated todo item
     private void OnUpdateText(View v) {
         String newItemText = "";
         etNewItem = (EditText)findViewById(R.id.editTextNewItems);
@@ -112,14 +114,6 @@ public class AddNewItems extends AppCompatActivity {
         Intent intentExtra = new Intent(this, MainActivity.class);
         intentExtra.putExtra("Add_New_Item",newItemText);
         startActivity(intentExtra);
-//        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
-//        Calendar c = Calendar.getInstance();
-//        String currentDate = sdf.format(new Date());
-//        TodoItem newItem = new TodoItem(newItemText,currentDate);
-//        TodoItem newItem = new TodoItem(newItemText,currentDate);
-//        itemsAdapter.add(newItem);
-//        etNewItem.setText("");
-//        writeItems();
     }
 
     //go back to main page
@@ -130,6 +124,4 @@ public class AddNewItems extends AppCompatActivity {
         finish();
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
-
-
 }

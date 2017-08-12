@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements EditItemFragment.EditItemDialogListener {
+public class MainActivity extends AppCompatActivity {
     ImageButton btnAddNewItems;
     ImageButton btnDeleteItems;
     Button btnEditItems;
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         lvItems.setAdapter(itemsAdapter);
 
         //click listener's
-        //etNewItem.addTextChangedListener(newItemTextWatcher);
         setupButtonOnClickListener();
         setupListViewListener();
 
@@ -86,20 +85,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         }
     }
 
-//    private void setupCheckBoxListner() {
-//
-//        checkboxItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CheckBox chkbx = (CheckBox)v;
-//                if(chkbx.isChecked()){
-//                    Boolean temp = true;
-//                    int temp1 = 0;
-//                }
-//            }
-//        });
-//    }
-
+    //listener for item list changes
     private void setupListViewListener() {
 
         //listener to edit items
@@ -113,21 +99,9 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
                 onShowEditItem(arrayofItems.get(position).task.toString());
             }
         });
-
-        //listener to remove items from list
-//        lvItems.setOnItemLongClickListener(
-//                new AdapterView.OnItemLongClickListener() {
-//                    @Override
-//                    public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
-//                        arrayofItems.remove(position);
-//                        itemsAdapter.notifyDataSetChanged();
-//                        writeItems();
-//                        return true;
-//                    }
-//                });
-
     }
 
+    //listener for button clicks
     private void setupButtonOnClickListener() {
 
         View.OnClickListener btnClickListener = new View.OnClickListener() {
@@ -154,19 +128,15 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         btnDeleteItems.setOnClickListener(btnClickListener);
     }
 
+    //display updated todo item
     private void onShowEditItem(String editedItem) {
 
         Intent intentExtra = new Intent(this, AddNewItems.class);
         intentExtra.putExtra("Edit_Item",editedItem);
         startActivity(intentExtra);
-
-
-//        FragmentManager fm = getSupportFragmentManager();
-//        EditItemFragment editItemFragment = EditItemFragment.newInstance(editedItem);
-//        editItemFragment.show(fm,"fragment_edit_item");
-
     }
 
+    //send todo item for update
     private void updateEditedText(String updatedString) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
         Calendar c = Calendar.getInstance();
@@ -178,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         writeItems();
     }
 
+    // delete all selected items
     private void OnDeleteItems(View v) {
         View child;
         for (int i = lvItems.getChildCount()-1;i >=0; i--){
@@ -194,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
 
     }
 
+    //edit button clicked
     private void OnEditItems(View v) {
 
         View child;
@@ -236,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
 
     }
 
+    //add new item button clicked
     private void OnAddNewItem(View view) {
 
         Intent intent = new Intent(MainActivity.this, AddNewItems.class);
@@ -245,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
 
     }
 
+    //read items from db
     private void readItems() throws IOException, ClassNotFoundException{
         try {
             String filename = "todo.srl";
@@ -261,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         }
     }
 
+    //write items to db
     private void writeItems() {
         String filename = "todo.srl";
         try {
@@ -272,15 +247,6 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             e.printStackTrace();
         }
     }
-
-    //callback from dialog fragment
-    @Override
-    public void onFinishEditDialog(String inputText) {
-
-        updateEditedText(inputText);
-    }
-
-
 
 
 }
