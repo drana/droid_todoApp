@@ -16,8 +16,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AddNewItems extends AppCompatActivity {
-    ImageButton btnBack;
-    Button btnDone;
+
+    ImageButton btnDone;
+    ImageButton btnCancel;
     EditText etNewItem;
     String isUpdateText = "0";
     int position = 0;
@@ -28,8 +29,9 @@ public class AddNewItems extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_items);
 
 
-        btnBack = (ImageButton)findViewById(R.id.btnGoBack);
-        btnDone =(Button) findViewById(R.id.btnDoneNewItem);
+
+        btnDone =(ImageButton) findViewById(R.id.btnDoneNewItem);
+        btnCancel = (ImageButton) findViewById(R.id.btnCancelNewItem);
         etNewItem = (EditText)findViewById(R.id.editTextNewItems);
 
 
@@ -75,8 +77,8 @@ public class AddNewItems extends AppCompatActivity {
                             break;
                         }
                         break;
-                    case R.id.btnGoBack:
-                        OnGoBackToMain(v);
+                    case R.id.btnCancelNewItem:
+                        OnCancelItem(v);
                         break;
                     default:
                         break;
@@ -85,7 +87,15 @@ public class AddNewItems extends AppCompatActivity {
         };
 
         btnDone.setOnClickListener(btnClickListener);
-        btnBack.setOnClickListener(btnClickListener);
+        btnCancel.setOnClickListener(btnClickListener);
+    }
+
+    private void OnCancelItem(View v) {
+        Intent intent = new Intent(AddNewItems.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
     }
 
     // send updated todo item
@@ -128,12 +138,4 @@ public class AddNewItems extends AppCompatActivity {
         startActivity(intentExtra);
     }
 
-    //go back to main page
-    private void OnGoBackToMain(View v) {
-
-        Intent intent = new Intent(AddNewItems.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-    }
 }

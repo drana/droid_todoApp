@@ -1,16 +1,18 @@
 package dipen.todoapp;
 
+
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
+import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -27,10 +29,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EditItemFragment.OnEditItemListener {
     ImageButton btnAddNewItems;
     ImageButton btnDeleteItems;
-    Button btnEditItems;
+    ImageButton btnEditItems;
+    ImageButton btnCancelEditItem;
     CheckBox checkboxItem;
     TextView textViewItem;
     TextView textViewDate;
@@ -51,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         btnAddNewItems = (ImageButton) findViewById(R.id.imgbtn_AddItem);
         btnDeleteItems = (ImageButton) findViewById(R.id.imgbtn_DeleteItem);
-        btnEditItems = (Button) findViewById(R.id.btn_Edit);
+        btnEditItems = (ImageButton) findViewById(R.id.btn_Edit);
+        btnCancelEditItem = (ImageButton) findViewById(R.id.btnCancelEditItems);
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
         textViewItemsCount = (TextView) findViewById(R.id.txtview_NoOfItems);
 
@@ -119,9 +123,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 textPosition = position;
-                //launchEditItemActivity(items.get(position).toString());
-                arrayofItems.get(position).task.toString();
-                onShowEditItem(arrayofItems.get(position).task.toString(), position);
+
+                String taskEdit = arrayofItems.get(position).task;
+                onEditItemSelected(taskEdit, position);
             }
         });
     }
@@ -142,6 +146,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.imgbtn_DeleteItem:
                         OnDeleteItems(v);
+                        break;
+                    case R.id.btnCancelEditItems:
+                        OnCancelEditItems(v);
+                        break;
                     default:
                         break;
                 }
@@ -151,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
         btnAddNewItems.setOnClickListener(btnClickListener);
         btnEditItems.setOnClickListener(btnClickListener);
         btnDeleteItems.setOnClickListener(btnClickListener);
+        btnCancelEditItem.setOnClickListener(btnClickListener);
+    }
+
+    private void OnCancelEditItems(View v) {
+        OnCancelItems(v);
     }
 
     //add new item button clicked
@@ -164,7 +177,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //display updated todo item
-    private void onShowEditItem(String editedItem, int position) {
+    private void onEditItemSelected(String editedItem, int position) {
+
+//        FrameLayout frag = (FrameLayout)findViewById(R.id.fragEditItems);
+//        frag.setVisibility(View.VISIBLE);
+//        EditItemFragment editItemFragment = new EditItemFragment();
+//        Bundle args = new Bundle();
+//        args.putString("Edit_Item",editedItem);
+//        args.putInt("Position",position);
+//        editItemFragment.setArguments(args);
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        //fragmentTransaction.add(R.id.fragEditItems,editItemFragment);
+//        fragmentTransaction.replace(R.id.fragEditItems,editItemFragment);
+//        fragmentTransaction.commit();
 
         Intent intentExtra = new Intent(this, AddNewItems.class);
         Bundle editbundle = new Bundle();
@@ -179,16 +204,24 @@ public class MainActivity extends AppCompatActivity {
     //edit button clicked
     private void OnEditItems(View v) {
 
-        btnDeleteItems.setEnabled(true);
-        btnEditItems = (Button) findViewById(R.id.btn_Edit);
-        String buttonText = btnEditItems.getText().toString();
+        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnEditItems.getLayoutParams();
+        params.rightMargin = 140;
+        btnEditItems.setLayoutParams(params);
 
-        if(buttonText.equals("Edit")) {
-            OnButtonClickEdit(v);
-        }
-        else if (buttonText.equals("Done")){
-            OnButtonClickDone(v);
-        }
+        btnDeleteItems.setEnabled(true);
+        btnCancelEditItem.setVisibility(View.VISIBLE);
+        OnButtonClickEdit(v);
+    }
+
+    private void OnCancelItems(View v){
+
+        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnEditItems.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
+        params.rightMargin = 10;
+        btnEditItems.setLayoutParams(params);
+        btnCancelEditItem.setVisibility(View.INVISIBLE);
+        OnButtonClickDone(v);
+
     }
 
     private void OnButtonClickEdit(View v) {
@@ -206,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
         }
         btnAddNewItems.setVisibility(View.INVISIBLE);
         btnDeleteItems.setVisibility(View.VISIBLE);
-        btnEditItems.setText(R.string.done_button);
     }
 
     private void OnButtonClickDone(View v) {
@@ -225,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
         }
         btnAddNewItems.setVisibility(View.VISIBLE);
         btnDeleteItems.setVisibility(View.INVISIBLE);
-        btnEditItems.setText("Edit");
+        //btnEditItems.setText("Edit");
     }
 
     //send todo item for update
@@ -291,5 +323,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void OnEditItemUpdateCompleted(String updatedItem) {
+
+    }
 }
 

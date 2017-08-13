@@ -8,7 +8,7 @@
     <color name="BtnBackground">#FE716B</color>
     <color name="NewBackground">#F7F9FC</color>
     <color name="TextColor">#6CC4F6</color>
-    <color name="TextColorWhite">#F7F9FC</color>
+    <color name="TextColorWhite">#f7f9fc</color>
     <color name="MainBackground">#FBFCFD</color>
     <color name="TextColorToolbar">#343A44</color>
     #

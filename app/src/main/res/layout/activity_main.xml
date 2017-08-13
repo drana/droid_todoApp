@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:id="@+id/rlMainActivity">
 
-     <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:id="@+id/llMainToolbar"
+        android:background="@color/colorPrimary">
+
+        <TextView
             android:id="@+id/txtview_Header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="20sp"
+            android:textSize="28sp"
             android:text="@string/app_tittle"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
             android:clickable="false" />
 
-     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="5sp"
-            android:textSize="20sp"
-            android:textAllCaps="false"
-            android:text="@string/edit_button"
-            android:textColor="@color/colorAccent"
-            android:id="@+id/btn_Edit"
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:background="@null"/>
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5sp"
+            android:background="@drawable/ic_edit_items_white"
+            android:id="@+id/btn_Edit"/>
 
-     <View
-            android:layout_width="wrap_content"
-            android:layout_height="2dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/TextColorToolbar"
-            android:id="@+id/viewLine"
-            android:layout_below="@+id/btn_Edit" />
+        <ImageButton
+            android:id="@+id/btnCancelEditItems"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            android:background="@drawable/ic_close_white"/>
+
+    </RelativeLayout>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewLine"
+        android:layout_below="@+id/llMainToolbar"
         android:layout_above="@+id/imgbtn_AddItem"
         android:layout_marginLeft="15sp"
         android:layout_marginTop="5sp"
