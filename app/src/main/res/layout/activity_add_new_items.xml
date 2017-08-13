@@ -45,22 +45,104 @@
 
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/editTextNewItems"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/llAddToolbar"
-        android:layout_margin="10sp"
-        android:gravity="start"
-        android:minLines="1"/>
+        android:id="@+id/EachItem">
 
-    <!--<View-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="2dp"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:background="@color/TextColorToolbar"-->
-        <!--android:id="@+id/viewLineTop"-->
-        <!--android:layout_below="@+id/btnDoneNewItem" />-->
+        //note:
+        <TextView
+            android:id="@+id/Note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="20dp"
+            android:text="Note:"/>
+
+        <EditText
+            android:id="@+id/editTextNewItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/Note"
+            android:layout_margin="10sp"
+            android:minLines="1"
+            android:maxLines="5"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/TextColorToolbar"
+            android:id="@+id/viewLineNote"
+            android:layout_below="@id/editTextNewItems"/>
+
+        //due date:
+        <TextView
+            android:id="@+id/DueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewLineNote"
+            android:layout_margin="10dp"
+            android:textSize="20dp"
+            android:text="DueDate:"/>
+        <DatePicker
+            android:id="@+id/pickerDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/DueDate"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:spinnersShown="true"
+            android:theme="@style/AppTheme"
+            android:touchscreenBlocksFocus="false" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/TextColorToolbar"
+            android:id="@+id/viewLineDate"
+            android:layout_below="@id/pickerDueDate"/>
+
+        //priority
+        <TextView
+            android:id="@+id/Priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewLineDate"
+            android:layout_margin="10dp"
+            android:textSize="20dp"
+            android:text="Priority:"/>
+
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewLineDate"
+            android:layout_toRightOf="@+id/Priority"
+
+            android:id="@+id/itemPriority"/>
+        <!--<EditText-->
+            <!--android:id="@+id/editTextPriority"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@+id/Priority"-->
+            <!--android:layout_below="@id/viewLineDate"-->
+            <!--android:layout_margin="10sp"-->
+            <!--android:minLines="1"-->
+            <!--android:maxLines="5"/>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/TextColorToolbar"
+            android:id="@+id/viewLinePriority"
+            android:layout_below="@id/itemPriority"/>
+
+    </RelativeLayout>
+
+
+
 
 
 
