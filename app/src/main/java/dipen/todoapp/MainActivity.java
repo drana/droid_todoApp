@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             }
         }
 
-        OnButtonClickDone(v);
+        OnCancelItems(v);
         count = arrayofItems.size();
         textViewItemsCount.setText(String.valueOf(count) + " Notes");
 
@@ -321,7 +321,6 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void OnEditItemUpdateCompleted(String updatedItem) {
