@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
     ImageButton btnCancelEditItem;
     CheckBox checkboxItem;
     TextView textViewItem;
-    TextView textViewDate;
+    DatePicker datePick;
     GridLayout gridItemView;
     TextView textViewItemsCount;
     ArrayList<TodoItem> arrayofItems = new ArrayList<TodoItem>();
@@ -44,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
     ListView lvItems;
     private int textPosition = 0;
     private int count =0;
+
+    private String selectedItem;
+    private String selectedDate;
+    private String selectedPriority;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +64,6 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         lvItems = (ListView) findViewById(R.id.lv_ListofItems);
         textViewItemsCount = (TextView) findViewById(R.id.txtview_NoOfItems);
 
-
-
-
         //check for existing items and read them
         try {
             readItems();}
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         //attach adapter the listview
         itemsAdapter  = new ItemsAdapter(this,arrayofItems );
         lvItems.setAdapter(itemsAdapter);
+        //set no of to do items
         count = arrayofItems.size();
         textViewItemsCount.setText(String.valueOf(count) + " Notes");
 
@@ -81,38 +84,70 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         setupButtonOnClickListener();
         setupListViewListener();
 
-
         //retrieve the data from add new item activity
-        if(intentAddItem.hasExtra("Add_New_Item")){
-            String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
-            String currentDate = sdf.format(new Date());
-            TodoItem newItem = new TodoItem(newItemAdded,currentDate);
-            if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
+        onSaveItemIntent();
+
+        //retrieve data from updated text
+        onUpdateItemIntent();
+
+        btnDeleteItems.setEnabled(false);
+//        if(intentAddItem.hasExtra("Add_New_Item")){
+//            String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
+//            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
+//            String currentDate = sdf.format(new Date());
+//            TodoItem newItem = new TodoItem(newItemAdded,currentDate);
+//            if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
+//                itemsAdapter.add(newItem);
+//                count = arrayofItems.size();
+//                textViewItemsCount.setText(String.valueOf(count) + " Notes");
+//                writeItems();
+//            }
+//        }
+
+
+
+
+
+        //disable delete
+
+    }
+
+    private void onUpdateItemIntent() {
+        //retrieve data from updated text
+        if(getIntent().hasExtra("UPDATED_NEW_ITEM")){
+            Bundle updatedbundle = getIntent().getExtras();
+            String updatedItem = updatedbundle.getString("UPDATED_EDIT_ITEM");
+            String updatedPriority = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
+            String updatedDate = updatedbundle.getString("UPDATED_ITEM_DATE");
+
+
+            if (updatedItem != null && !updatedItem.isEmpty()) {
+                TodoItem updateItem = new TodoItem(updatedItem,updatedDate,updatedPriority);
+
+                arrayofItems.set(textPosition,updateItem);
+                itemsAdapter.notifyDataSetChanged();
+                writeItems();
+            }
+
+        }
+    }
+
+    private void onSaveItemIntent() {
+        if(getIntent().hasExtra("SAVE_NEW_ITEM")){
+            Bundle saveBundle = getIntent().getExtras();
+
+            String item = saveBundle.getString("SAVE_NEW_ITEM");
+            String itemPriority = saveBundle.getString("SAVE_ITEM_PRIORITY");
+            String formatedDate = saveBundle.getString("SAVE_ITEM_DUE_DATE");
+            TodoItem newItem = new TodoItem(item,formatedDate,itemPriority);
+
+            if (newItem != null) {
                 itemsAdapter.add(newItem);
                 count = arrayofItems.size();
                 textViewItemsCount.setText(String.valueOf(count) + " Notes");
                 writeItems();
             }
         }
-
-
-        //retrieve data from updated text
-        if(getIntent().hasExtra("Update_New_Item")){
-
-            Bundle updatedbundle = getIntent().getExtras();
-            //String updatedTextItem = intentAddItem.getStringExtra("Update_New_Item");
-            String updatedTextItem = updatedbundle.getString("Update_New_Item");
-            textPosition = updatedbundle.getInt("Position");
-            if (updatedTextItem != null && !updatedTextItem.isEmpty()) {
-            updateEditedText(updatedTextItem, textPosition);
-            }
-
-        }
-
-
-        //disable delete
-        btnDeleteItems.setEnabled(false);
     }
 
     //listener for item list changes
@@ -124,8 +159,10 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 textPosition = position;
 
-                String taskEdit = arrayofItems.get(position).task;
-                onEditItemSelected(taskEdit, position);
+                 selectedItem = arrayofItems.get(position).task;
+                 selectedDate = arrayofItems.get(position).taskDate;
+                 selectedPriority = arrayofItems.get(position).taskPriority;
+                onEditItemSelected(selectedItem, selectedDate,selectedPriority);
             }
         });
     }
@@ -177,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
     }
 
     //display updated todo item
-    private void onEditItemSelected(String editedItem, int position) {
+    private void onEditItemSelected(String itemSelected, String dateSelected, String prioritySelected) {
 
 //        FrameLayout frag = (FrameLayout)findViewById(R.id.fragEditItems);
 //        frag.setVisibility(View.VISIBLE);
@@ -192,12 +229,13 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
 //        fragmentTransaction.commit();
 
         Intent intentExtra = new Intent(this, AddNewItems.class);
-        Bundle editbundle = new Bundle();
+        Bundle selectedbundle = new Bundle();
 
-        editbundle.putInt("Position",position);
-        editbundle.putString("Edit_Item",editedItem);
-        intentExtra.putExtras(editbundle);
-        //intentExtra.putExtra("Edit_Item",editedItem);
+        selectedbundle.putString("EDIT_SELECTED_ITEM",itemSelected);
+        selectedbundle.putString("EDIT_SELECTED_DATE",dateSelected);
+        selectedbundle.putString("EDIT_SELECTED_PRIORITY",prioritySelected);
+        intentExtra.putExtras(selectedbundle);
+
         startActivity(intentExtra);
     }
 
@@ -265,7 +303,8 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
         Calendar c = Calendar.getInstance();
         String currentDate = sdf.format(new Date());
-        TodoItem newItem = new TodoItem(updatedString,currentDate);
+
+        TodoItem newItem = new TodoItem(updatedString,currentDate,"Low");
 
         arrayofItems.set(position,newItem);
         itemsAdapter.notifyDataSetChanged();

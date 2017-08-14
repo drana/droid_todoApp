@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -31,12 +33,16 @@ public class ItemsAdapter extends ArrayAdapter<TodoItem>{
         // Lookup view for data population
         TextView taskName = (TextView) convertView.findViewById(R.id.taskItem);
         TextView taskDate = (TextView) convertView.findViewById(R.id.taskDate);
+        TextView taskPriority = (TextView) convertView.findViewById(R.id.taskPriority);
 
         // Populate the data into the template view using the data object
         String task = todoItem.task; //+ "\n" + todoItem.taskDate;
         String date = todoItem.taskDate;
+        String priority = todoItem.taskPriority;
         taskName.setText(task);
         taskDate.setText(date);
+        taskPriority.setText(priority);
+
 
         // Return the completed view to render on screen
         return convertView;

@@ -1,29 +1,41 @@
 package dipen.todoapp;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
 
 public class AddNewItems extends AppCompatActivity {
 
-    ImageButton btnDone;
+    ImageButton btnSave;
     ImageButton btnCancel;
     EditText etNewItem;
+    Spinner spinPriority;
+    DatePicker dueDate;
+
     String isUpdateText = "0";
     int position = 0;
+    private String itemText;
+    private String itemDueDate;
+    private String itemPriority;
+
+    private String selectedItem;
+    private String selectedDate;
+    private String selectedPriority;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,42 +44,53 @@ public class AddNewItems extends AppCompatActivity {
 
 
 
-        btnDone =(ImageButton) findViewById(R.id.btnDoneNewItem);
+        btnSave =(ImageButton) findViewById(R.id.btnDoneNewItem);
         btnCancel = (ImageButton) findViewById(R.id.btnCancelNewItem);
         etNewItem = (EditText)findViewById(R.id.editTextNewItems);
-
-
+        spinPriority = (Spinner)findViewById(R.id.itemPriority);
+        dueDate = (DatePicker) findViewById(R.id.pickerDueDate);
         //get focus and keyboard
-        etNewItem.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        //etNewItem.requestFocus();
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         //onclick listener
         setupButtonOnClickListener();
 
+
         //edit text
-        //String updateText = intentEditItem.getStringExtra("Edit_Item");
-        if(getIntent().hasExtra("Edit_Item")) {
+
+        if(getIntent().hasExtra("EDIT_SELECTED_ITEM")) {
             Bundle editbundle = getIntent().getExtras();
 
-            String updateText = editbundle.getString("Edit_Item");
-            position = editbundle.getInt("Position");
-            if(updateText !=null && !updateText.isEmpty()) {
+            selectedItem = editbundle.getString("EDIT_SELECTED_ITEM");
+            selectedDate = editbundle.getString("EDIT_SELECTED_DATE");
+            selectedPriority = editbundle.getString("EDIT_SELECTED_PRIORITY");
+
+            Calendar cal = Calendar.getInstance();
+            //Date parsed = selectedDate.parse(toParse);
+
+            if(selectedItem !=null && !selectedItem.isEmpty()) {
                 isUpdateText = "1";
-                etNewItem.setText(updateText);
+                etNewItem.setText(selectedItem);
+                spinPriority.post(new Runnable() {
+                    public void run() {
+                        spinPriority.setSelection(1);
+                    }
+                });
+
                 etNewItem.requestFocus();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
         }
 
-        //get the spinner from the xml.
-        Spinner dropdown = (Spinner)findViewById(R.id.itemPriority);
-//create a list of items for the spinner.
+
+
+        //create a list of items for the spinner.
         String[] items = new String[]{"Low", "Medium", "High"};
-//create an adapter to describe how the items are displayed, adapters are used in several places in android.
-//There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-//set the spinners adapter to the previously created one.
-        dropdown.setAdapter(adapter);
+        spinPriority.setAdapter(adapter);
+
+
     }
 
     // listeners for button clicks
@@ -85,7 +108,7 @@ public class AddNewItems extends AppCompatActivity {
                             break;
                         }
                         else if(isUpdateText.equals("0")) {
-                            OnDoneAddNewItem(v);
+                            OnSaveNewItem(v);
                             break;
                         }
                         break;
@@ -98,7 +121,7 @@ public class AddNewItems extends AppCompatActivity {
             }
         };
 
-        btnDone.setOnClickListener(btnClickListener);
+        btnSave.setOnClickListener(btnClickListener);
         btnCancel.setOnClickListener(btnClickListener);
     }
 
@@ -112,12 +135,14 @@ public class AddNewItems extends AppCompatActivity {
 
     // send updated todo item
     private void OnUpdateText(View v) {
-        String newItemText = "";
-        //etNewItem = (EditText)findViewById(R.id.editTextNewItems);
+        itemText = "";
+
         if(etNewItem !=null) {
-            newItemText = etNewItem.getText().toString();
+            itemText = etNewItem.getText().toString();
+            itemDueDate = getDueDate();
+            itemPriority = spinPriority.getSelectedItem().toString();
         }
-        if(newItemText.isEmpty())
+        if(itemText.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "",
                     Toast.LENGTH_SHORT).show();
@@ -125,29 +150,57 @@ public class AddNewItems extends AppCompatActivity {
 
         Intent intentExtra = new Intent(this, MainActivity.class);
         Bundle updatebundle = new Bundle();
-        updatebundle.putInt("Position",position);
-        updatebundle.putString("Update_New_Item",newItemText);
+
+        updatebundle.putString("UPDATED_NEW_ITEM",itemText);
+        updatebundle.putString("UPDATED_ITEM_DUE_DATE",itemDueDate);
+        updatebundle.putString("UPDATED_ITEM_PRIORITY",itemPriority);
         intentExtra.putExtras(updatebundle);
-        //intentExtra.putExtra("Update_New_Item",newItemText);
         startActivity(intentExtra);
     }
 
     //done adding new todo items
-    private void OnDoneAddNewItem(View v){
-        String newItemText = "";
-        etNewItem = (EditText)findViewById(R.id.editTextNewItems);
+    private void OnSaveNewItem(View v){
+        itemText = "";
+
         if(etNewItem !=null) {
-            newItemText = etNewItem.getText().toString();
+            itemText = etNewItem.getText().toString();
+            itemDueDate = getDueDate();
+            itemPriority = spinPriority.getSelectedItem().toString();
         }
-        if(newItemText.isEmpty())
+        if(itemText.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "",
                     Toast.LENGTH_SHORT).show();
         }
 
-        Intent intentExtra = new Intent(this, MainActivity.class);
-        intentExtra.putExtra("Add_New_Item",newItemText);
-        startActivity(intentExtra);
+        Intent saveIntent = new Intent(this, MainActivity.class);
+        Bundle saveBundle = new Bundle();
+
+        saveBundle.putString("SAVE_NEW_ITEM",itemText);
+        saveBundle.putString("SAVE_ITEM_DUE_DATE",itemDueDate);
+        saveBundle.putString("SAVE_ITEM_PRIORITY",itemPriority);
+
+        saveIntent.putExtras(saveBundle);
+        startActivity(saveIntent);
+
     }
+
+    private String getDueDate(){
+        int month = dueDate.getMonth();
+        int day = dueDate.getDayOfMonth();
+        int year = dueDate.getYear();
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+        String dueDate = format.format(calendar.getTime());
+
+        return  dueDate;
+
+    }
+
+
 
 }

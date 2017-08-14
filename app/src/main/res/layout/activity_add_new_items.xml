@@ -120,7 +120,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewLineDate"
             android:layout_toRightOf="@+id/Priority"
-
             android:id="@+id/itemPriority"/>
         <!--<EditText-->
             <!--android:id="@+id/editTextPriority"-->

@@ -33,18 +33,37 @@
                     android:textStyle="bold"
                     android:lines="2"/>
 
-                <TextView
-                    android:id="@+id/taskDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:textSize="20dp"
-                    android:text="date"
-                    android:textColor="@color/TextColor"
-                    android:textStyle="bold"
-                    android:lines="1"/>
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/itemDatePriority">
+
+                        <TextView
+                            android:id="@+id/taskDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:textSize="20dp"
+                            android:text="date"
+                            android:textColor="@color/TextColor"
+                            android:textStyle="bold"
+                            android:lines="1"/>
+
+                        <TextView
+                            android:id="@+id/taskPriority"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:textSize="20dp"
+                            android:text="priority"
+                            android:textColor="@color/TextColor"
+                            android:textStyle="bold"
+                            android:lines="1"/>
+
+                </GridLayout>
+
+
         </GridLayout>
 
 

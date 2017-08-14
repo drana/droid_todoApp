@@ -8,10 +8,12 @@ import java.io.Serializable;
 public class TodoItem implements Serializable{
     public String task;
     public String taskDate;
+    public String taskPriority;
 
-    public TodoItem(String task, String taskDate)
+    public TodoItem(String task, String taskDate, String taskPriority)
     {
         this.task = task;
         this.taskDate = taskDate;
+        this.taskPriority = taskPriority;
     }
 }
