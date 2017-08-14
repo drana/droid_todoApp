@@ -51,9 +51,6 @@ public class AddNewItems extends AppCompatActivity {
         etNewItem = (EditText)findViewById(R.id.editTextNewItems);
         spinPriority = (Spinner)findViewById(R.id.itemPriority);
         dueDate = (DatePicker) findViewById(R.id.pickerDueDate);
-        //get focus and keyboard
-        //etNewItem.requestFocus();
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         //onclick listener
         setupButtonOnClickListener();
@@ -114,11 +111,6 @@ public class AddNewItems extends AppCompatActivity {
         catch (java.text.ParseException e) {
             e.printStackTrace();
         }
-
-        //java.sql.Date date = new java.sql.Date(parsed.getTime());
-
-
-
     }
 
     private void SetSelectedPriority() {
