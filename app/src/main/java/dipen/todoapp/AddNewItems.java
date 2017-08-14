@@ -60,7 +60,17 @@ public class AddNewItems extends AppCompatActivity {
 
 
         //edit text
+        SelectedItemIntent();
 
+        //create a list of items for the spinner.
+        String[] items = new String[]{"Low", "Medium", "High"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinPriority.setAdapter(adapter);
+
+
+    }
+
+    private void SelectedItemIntent() {
         if(getIntent().hasExtra("EDIT_SELECTED_ITEM")) {
             Bundle editbundle = getIntent().getExtras();
 
@@ -69,53 +79,66 @@ public class AddNewItems extends AppCompatActivity {
             selectedPriority = editbundle.getString("EDIT_SELECTED_PRIORITY");
 
 
-
             if(selectedItem !=null && !selectedItem.isEmpty()) {
                 isUpdateText = "1";
                 etNewItem.setText(selectedItem);
-                spinPriority.post(new Runnable() {
-                    public void run() {
-                        switch (selectedPriority){
-                            case "Low":
-                                spinPriority.setSelection(0);
-                                break;
-                            case "Medium":
-                                spinPriority.setSelection(1);
-                                break;
-                            case "High":
-                                spinPriority.setSelection(2);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+                //set priority
+                SetSelectedPriority();
 
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-
-                try {
-                    java.util.Date date = dateFormat.parse(selectedDate);
-                     int year = date.getYear();
-                    int mont = date.getMonth();
-                    int day = date.getDay();
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
+                //set selected date
+                SetSelectedDate();
 
                 etNewItem.requestFocus();
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
         }
 
+    }
+
+    private void SetSelectedDate() {
+
+        SimpleDateFormat sdfFormat = new SimpleDateFormat("MM-dd-yyyy");
+        java.util.Date parsed = null;
+        Calendar calSelected = Calendar.getInstance();
+        int month, day,year;
+
+        try {
+            parsed = sdfFormat.parse(selectedDate);
+            calSelected.setTime(parsed);
+            month =   calSelected.get(Calendar.MONTH);
+            day = calSelected.get(calSelected.DAY_OF_MONTH);
+            year = calSelected.get(calSelected.YEAR);
+
+            dueDate.updateDate(year,month,day);
+        }
+        catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        //java.sql.Date date = new java.sql.Date(parsed.getTime());
 
 
-        //create a list of items for the spinner.
-        String[] items = new String[]{"Low", "Medium", "High"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        spinPriority.setAdapter(adapter);
 
+    }
 
+    private void SetSelectedPriority() {
+        spinPriority.post(new Runnable() {
+            public void run() {
+                switch (selectedPriority){
+                    case "Low":
+                        spinPriority.setSelection(0);
+                        break;
+                    case "Medium":
+                        spinPriority.setSelection(1);
+                        break;
+                    case "High":
+                        spinPriority.setSelection(2);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     // listeners for button clicks
@@ -219,12 +242,8 @@ public class AddNewItems extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
 
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
-        String dueDateSelected = format.format(calendar.getTime());
-
-
-
-
+        SimpleDateFormat sdfformat = new SimpleDateFormat("MM-dd-yyyy");
+        String dueDateSelected = sdfformat.format(calendar.getTime());
 
         return  dueDateSelected;
 
