@@ -1,6 +1,7 @@
 package dipen.todoapp;
 
 import android.content.Intent;
+import android.net.ParseException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -66,17 +68,40 @@ public class AddNewItems extends AppCompatActivity {
             selectedDate = editbundle.getString("EDIT_SELECTED_DATE");
             selectedPriority = editbundle.getString("EDIT_SELECTED_PRIORITY");
 
-            Calendar cal = Calendar.getInstance();
-            //Date parsed = selectedDate.parse(toParse);
+
 
             if(selectedItem !=null && !selectedItem.isEmpty()) {
                 isUpdateText = "1";
                 etNewItem.setText(selectedItem);
                 spinPriority.post(new Runnable() {
                     public void run() {
-                        spinPriority.setSelection(1);
+                        switch (selectedPriority){
+                            case "Low":
+                                spinPriority.setSelection(0);
+                                break;
+                            case "Medium":
+                                spinPriority.setSelection(1);
+                                break;
+                            case "High":
+                                spinPriority.setSelection(2);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 });
+
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+                try {
+                    java.util.Date date = dateFormat.parse(selectedDate);
+                     int year = date.getYear();
+                    int mont = date.getMonth();
+                    int day = date.getDay();
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
 
                 etNewItem.requestFocus();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -195,9 +220,13 @@ public class AddNewItems extends AppCompatActivity {
         calendar.set(year, month, day);
 
         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
-        String dueDate = format.format(calendar.getTime());
+        String dueDateSelected = format.format(calendar.getTime());
 
-        return  dueDate;
+
+
+
+
+        return  dueDateSelected;
 
     }
 
