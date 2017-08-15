@@ -19,7 +19,7 @@ public class ItemsAdapter extends ArrayAdapter<TodoItem>{
 
     public ItemsAdapter(Context context, ArrayList<TodoItem> todoItems) {
         super(context,0,todoItems);
-        
+
     }
 
     @Override
@@ -37,12 +37,10 @@ public class ItemsAdapter extends ArrayAdapter<TodoItem>{
         TextView taskPriority = (TextView) convertView.findViewById(R.id.taskPriority);
 
         // Populate the data into the template view using the data object
-        String task = todoItem.task; //+ "\n" + todoItem.taskDate;
-        String date = todoItem.taskDate;
-        String priority = todoItem.taskPriority;
-        taskName.setText(task);
-        taskDate.setText(date);
-        taskPriority.setText(priority);
+
+        taskName.setText(todoItem.task);
+        taskDate.setText(todoItem.taskDate);
+        taskPriority.setText(todoItem.taskPriority);
 
 
         // Return the completed view to render on screen

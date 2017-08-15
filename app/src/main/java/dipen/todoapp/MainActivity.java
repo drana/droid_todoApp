@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
     private int textPosition = 0;
     private int count =0;
 
-    private String selectedItem;
-    private String selectedDate;
-    private String selectedPriority;
+    private static  String selectedItem;
+    private static String selectedDate;
+    private static String selectedPriority;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         }
 
         //attach adapter the listview
-        itemsAdapter  = new ItemsAdapter(this,arrayofItems );
+        itemsAdapter  = new ItemsAdapter(this,arrayofItems);
         lvItems.setAdapter(itemsAdapter);
         //set no of to do items
         count = arrayofItems.size();
@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         selectedbundle.putInt("EDIT_SELECTED_POSITION",textPosition);
         intentExtra.putExtras(selectedbundle);
 
+        intentExtra.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intentExtra);
     }
 
@@ -188,17 +189,27 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
     private void onUpdateItemIntent() {
         //retrieve data from updated text
 
-        if(getIntent().hasExtra("UPDATED_NEW_ITEM")){
+        View currentFocus = getWindow().getCurrentFocus();
+
+
+        if(getIntent().hasExtra("UPDATED_ITEM")){
             Bundle updatedbundle = getIntent().getExtras();
 
-            String updatedItem = updatedbundle.getString("UPDATED_NEW_ITEM");
-            String updatedPriority = updatedbundle.getString("UPDATED_ITEM_DUE_DATE");
-            String updatedDate = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
+            String updatedItem = updatedbundle.getString("UPDATED_ITEM");
+            String updatedDate = updatedbundle.getString("UPDATED_ITEM_DUE_DATE");
+            String updatedPriority = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
             int updatedPosition = updatedbundle.getInt("UPDATED_ITEM_POSITION");
             TodoItem updateItems = new TodoItem(updatedItem,updatedDate,updatedPriority);
 
             if (updateItems != null) {
                 arrayofItems.set(updatedPosition,updateItems);
+//                if(!selectedItem.equals(updatedItem)){
+//                arrayofItems.get(updatedPosition).task = updatedItem;}
+//                if(!selectedPriority.equals(updatedPriority)){
+//                    arrayofItems.get(updatedPosition).taskPriority = updatedPriority;}
+//                if(!selectedDate.equals(updatedDate)){
+//                    arrayofItems.get(updatedPosition).taskDate = updatedDate;}
+
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
             }

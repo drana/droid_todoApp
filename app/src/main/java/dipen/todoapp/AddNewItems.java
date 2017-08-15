@@ -219,7 +219,7 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
         Intent intentExtra = new Intent(this, MainActivity.class);
         Bundle updatebundle = new Bundle();
 
-        updatebundle.putString("UPDATED_NEW_ITEM",itemText);
+        updatebundle.putString("UPDATED_ITEM",itemText);
         updatebundle.putString("UPDATED_ITEM_DUE_DATE",itemDueDate);
         updatebundle.putString("UPDATED_ITEM_PRIORITY",itemPriority);
         updatebundle.putInt("UPDATED_ITEM_POSITION",position);
