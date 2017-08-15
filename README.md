@@ -34,7 +34,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://imgur.com/LU4TK1E.gif' title='2Doo App' width='600' alt='Video Walkthrough' />
+<img src='http://imgur.com/LU4TK1E.gif' title='2Doo App' width='500' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
