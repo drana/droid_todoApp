@@ -1,0 +1,48 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dipen.todoapp.ModalFragment">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Your Text"
+            android:textSize="20dp"
+            android:id="@+id/modalText"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/modalOK"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center"
+                android:text="OK"
+                android:textSize="15dp"
+                android:background="@color/colorPrimary"
+                />
+
+            <Button
+                android:id="@+id/modalCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="right|center"
+                android:text="Cancel"
+                android:textSize="15dp"
+                android:background="@color/colorPrimary"
+                />
+
+        </GridLayout>
+    </GridLayout>
+
+</FrameLayout>
