@@ -3,7 +3,8 @@ package dipen.todoapp;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentTransaction;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements EditItemFragment.OnEditItemListener {
+public class MainActivity extends AppCompatActivity implements  ModalFragment.OnFragmentInteractionListener{
     ImageButton btnAddNewItems;
     ImageButton btnDeleteItems;
     ImageButton btnEditItems;
@@ -182,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
                         OnEditItems(v);
                         break;
                     case R.id.imgbtn_DeleteItem:
-                        OnDeleteItems(v);
+                        onShowModalBox(v);
+                        //OnDeleteItems(v);
                         break;
                     case R.id.btnCancelEditItems:
                         OnCancelEditItems(v);
@@ -331,6 +333,17 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
 
     }
 
+    private void onShowModalBox(View v) {
+
+//        FragmentManager fm = getSupportFragmentManager();
+//        ModalFragment modalFragment = ModalFragment.newInstance("MSG_DELETE");
+//        modalFragment.show(fm,"fragment_modal");
+
+        //DialogFragment newFragment = ModalFragment.newInstance("MSG_DELETE");
+        DialogFragment newFragment = ModalFragment.newInstance("MSG_DELETE");
+        newFragment.show(getFragmentManager(),"fragment_modal");
+    }
+
     //read items from db
     private void readItems() throws IOException, ClassNotFoundException{
         try {
@@ -362,8 +375,21 @@ public class MainActivity extends AppCompatActivity implements EditItemFragment.
     }
 
     @Override
-    public void OnEditItemUpdateCompleted(String updatedItem) {
+    public void onFragmentInteraction(int Value) {
+        int temp;
+        if(Value == 1){
+            temp =1;
+        }
+        else if(Value == 0){
+            temp=0;
+        }
+    }
 
+    public void doPositiveClick() {
+        
+    }
+
+    public void doNegativeClick() {
     }
 }
 

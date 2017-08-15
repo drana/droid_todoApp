@@ -85,6 +85,7 @@
             android:layout_margin="10dp"
             android:textSize="20dp"
             android:text="DueDate:"/>
+
         <DatePicker
             android:id="@+id/pickerDueDate"
             android:layout_width="wrap_content"
@@ -95,7 +96,6 @@
             android:spinnersShown="true"
             android:theme="@style/AppTheme"
             android:touchscreenBlocksFocus="false" />
-
 
         <View
             android:layout_width="match_parent"
@@ -114,22 +114,12 @@
             android:textSize="20dp"
             android:text="Priority:"/>
 
-
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewLineDate"
             android:layout_toRightOf="@+id/Priority"
             android:id="@+id/itemPriority"/>
-        <!--<EditText-->
-            <!--android:id="@+id/editTextPriority"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@+id/Priority"-->
-            <!--android:layout_below="@id/viewLineDate"-->
-            <!--android:layout_margin="10sp"-->
-            <!--android:minLines="1"-->
-            <!--android:maxLines="5"/>-->
 
         <View
             android:layout_width="match_parent"
@@ -138,12 +128,8 @@
             android:id="@+id/viewLinePriority"
             android:layout_below="@id/itemPriority"/>
 
+
     </RelativeLayout>
-
-
-
-
-
 
 </RelativeLayout>
 

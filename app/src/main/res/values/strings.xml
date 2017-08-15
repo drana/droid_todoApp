@@ -7,6 +7,8 @@
     <string name="app_tittle">2Do</string>
     <string name="edit_button">Edit</string>
     <string name="done_button">Done</string>
+    <string name="alert_dialog_ok">Ok</string>
+    <string name="alert_dialog_cancel">Cancel</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
