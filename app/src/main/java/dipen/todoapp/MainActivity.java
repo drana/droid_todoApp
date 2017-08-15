@@ -220,10 +220,11 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
     //edit button clicked
     private void OnEditItems(View v) {
 
-        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnEditItems.getLayoutParams();
-        params.rightMargin = 140;
-        btnEditItems.setLayoutParams(params);
+//        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnEditItems.getLayoutParams();
+//        params.rightMargin = 140;
+//        btnEditItems.setLayoutParams(params);
 
+        btnEditItems.setVisibility(View.INVISIBLE);
         btnDeleteItems.setEnabled(true);
         btnCancelEditItem.setVisibility(View.VISIBLE);
         OnButtonClickEdit(v);
@@ -232,10 +233,11 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
     //on new item cancel
     private void OnCancelItems(View v){
         Boolean result = checkItemUpdated(v);
-        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnEditItems.getLayoutParams();
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
-        params.rightMargin = 10;
-        btnEditItems.setLayoutParams(params);
+//        final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnEditItems.getLayoutParams();
+//        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
+//        params.rightMargin = 10;
+        //btnEditItems.setLayoutParams(params);
+        btnEditItems.setVisibility(View.VISIBLE);
         btnCancelEditItem.setVisibility(View.INVISIBLE);
         OnButtonClickDone(v);
 

@@ -50,49 +50,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/llMainToolbar"
-        android:layout_above="@+id/imgbtn_AddItem"
         android:layout_marginLeft="15sp"
         android:layout_marginTop="5sp"
         android:layout_marginBottom="5sp"
         android:id="@+id/lv_ListofItems"
         android:layout_alignParentLeft="true"
+        android:layout_above="@+id/lowerToolbar"
         android:layout_alignParentStart="true"/>
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="2dp"
-        android:background="@color/TextColorToolbar"
-        android:id="@+id/viewLineBottom"
-        android:layout_below="@+id/lv_ListofItems" />
+    <!--<View-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:background="@color/TextColorToolbar"-->
+        <!--android:id="@+id/viewLineBottom"-->
+        <!--android:layout_below="@+id/lv_ListofItems" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtview_NoOfItems"
-        android:layout_below="@+id/viewLineBottom"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="15sp"
-        android:text="0 Notes"/>
-
-    <ImageButton
-        android:layout_width="60dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@mipmap/ic_add_text_enabled"
-        android:id="@+id/imgbtn_AddItem"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:visibility="visible"/>
+        android:id="@+id/lowerToolbar"
+        android:background="@color/colorPrimary">
 
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@mipmap/ic_delete"
-        android:id="@+id/imgbtn_DeleteItem"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:visibility="invisible"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtview_NoOfItems"
+            android:layout_centerInParent="true"
+            android:textColor="@color/TextColorWhite"
+            android:layout_marginTop="15sp"
+            android:text="0 Notes"/>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_add_new_item"
+            android:id="@+id/imgbtn_AddItem"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="visible"/>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_delete_item"
+            android:id="@+id/imgbtn_DeleteItem"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>

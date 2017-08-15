@@ -22,6 +22,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="28sp"
             android:text="@string/app_tittle"
+            android:textColor="@color/TextColorWhite"
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
             android:clickable="false" />
