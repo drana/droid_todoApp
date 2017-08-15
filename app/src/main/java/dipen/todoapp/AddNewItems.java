@@ -174,19 +174,27 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
 
         if(etNewItem !=null) {
             itemText = etNewItem.getText().toString();
-            itemDueDate = getDueDate();
-            itemPriority = spinPriority.getSelectedItem().toString();
-        }
-        if(!selectedItem.equals(itemText)) {
-            DialogFragment newFragment = ModalFragment.newInstance("MSG_CLOSE");
-            newFragment.show(getFragmentManager(),"fragment_modal");
+            if(!itemText.isEmpty()) {
+                itemDueDate = getDueDate();
+                itemPriority = spinPriority.getSelectedItem().toString();
 
-        }
-        else {
-            Intent intent = new Intent(AddNewItems.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                if(!selectedItem.equals(itemText)) {
+                    DialogFragment newFragment = ModalFragment.newInstance("MSG_CLOSE");
+                    newFragment.show(getFragmentManager(),"fragment_modal");
+                }
+                else {
+                    Intent intent = new Intent(AddNewItems.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                }
+            }
+            else{
+                Intent intent = new Intent(AddNewItems.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            }
         }
 
 
@@ -215,8 +223,11 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
         updatebundle.putString("UPDATED_ITEM_DUE_DATE",itemDueDate);
         updatebundle.putString("UPDATED_ITEM_PRIORITY",itemPriority);
         updatebundle.putInt("UPDATED_ITEM_POSITION",position);
+
         intentExtra.putExtras(updatebundle);
+        intentExtra.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intentExtra);
+        finish();
     }
 
     //done adding new todo items
@@ -242,6 +253,7 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
         saveBundle.putString("SAVE_ITEM_PRIORITY",itemPriority);
 
         saveIntent.putExtras(saveBundle);
+        saveIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(saveIntent);
 
     }

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
     CheckBox checkboxItem;
     TextView textViewItem;
     DatePicker datePick;
-    GridLayout gridItemView;
+    RelativeLayout gridItemView;
     TextView textViewItemsCount;
     ArrayList<TodoItem> arrayofItems = new ArrayList<TodoItem>();
     ItemsAdapter itemsAdapter;
@@ -187,17 +187,18 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
     //update the selected item
     private void onUpdateItemIntent() {
         //retrieve data from updated text
+
         if(getIntent().hasExtra("UPDATED_NEW_ITEM")){
             Bundle updatedbundle = getIntent().getExtras();
+
             String updatedItem = updatedbundle.getString("UPDATED_NEW_ITEM");
             String updatedPriority = updatedbundle.getString("UPDATED_ITEM_DUE_DATE");
             String updatedDate = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
             int updatedPosition = updatedbundle.getInt("UPDATED_ITEM_POSITION");
+            TodoItem updateItems = new TodoItem(updatedItem,updatedDate,updatedPriority);
 
-
-            if (updatedItem != null && !updatedItem.isEmpty()) {
-                TodoItem updateItem = new TodoItem(updatedItem,updatedDate,updatedPriority);
-                arrayofItems.set(updatedPosition,updateItem);
+            if (updateItems != null) {
+                arrayofItems.set(updatedPosition,updateItems);
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
             }
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
 
             child = lvItems.getChildAt(i);
             checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
-            gridItemView = (GridLayout) child.findViewById(R.id.itemView);
+            gridItemView = (RelativeLayout) child.findViewById(R.id.itemView);
 
             final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.RIGHT_OF, R.id.checkboxItem);
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
 
             child = lvItems.getChildAt(i);
-            gridItemView = (GridLayout) child.findViewById(R.id.itemView);
+            gridItemView = (RelativeLayout) child.findViewById(R.id.itemView);
             checkboxItem = (CheckBox) child.findViewById(R.id.checkboxItem);
             checkboxItem.setChecked(false);
 

@@ -19,6 +19,7 @@ public class ItemsAdapter extends ArrayAdapter<TodoItem>{
 
     public ItemsAdapter(Context context, ArrayList<TodoItem> todoItems) {
         super(context,0,todoItems);
+        
     }
 
     @Override
