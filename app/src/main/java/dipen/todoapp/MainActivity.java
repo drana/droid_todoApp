@@ -2,18 +2,13 @@ package dipen.todoapp;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -92,34 +87,17 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         onUpdateItemIntent();
 
         btnDeleteItems.setEnabled(false);
-//        if(intentAddItem.hasExtra("Add_New_Item")){
-//            String newItemAdded = intentAddItem.getStringExtra("Add_New_Item");
-//            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
-//            String currentDate = sdf.format(new Date());
-//            TodoItem newItem = new TodoItem(newItemAdded,currentDate);
-//            if(newItemAdded != null && !newItemAdded.isEmpty() && newItem !=null) {
-//                itemsAdapter.add(newItem);
-//                count = arrayofItems.size();
-//                textViewItemsCount.setText(String.valueOf(count) + " Notes");
-//                writeItems();
-//            }
-//        }
-
-
-
-
-
-        //disable delete
 
     }
 
+    //update the selected item
     private void onUpdateItemIntent() {
         //retrieve data from updated text
         if(getIntent().hasExtra("UPDATED_NEW_ITEM")){
             Bundle updatedbundle = getIntent().getExtras();
-            String updatedItem = updatedbundle.getString("UPDATED_EDIT_ITEM");
-            String updatedPriority = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
-            String updatedDate = updatedbundle.getString("UPDATED_ITEM_DATE");
+            String updatedItem = updatedbundle.getString("UPDATED_NEW_ITEM");
+            String updatedPriority = updatedbundle.getString("UPDATED_ITEM_DUE_DATE");
+            String updatedDate = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
 
 
             if (updatedItem != null && !updatedItem.isEmpty()) {
@@ -133,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         }
     }
 
+    //save new item
     private void onSaveItemIntent() {
         if(getIntent().hasExtra("SAVE_NEW_ITEM")){
             Bundle saveBundle = getIntent().getExtras();
@@ -218,18 +197,6 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
     //display updated todo item
     private void onEditItemSelected(String itemSelected, String dateSelected, String prioritySelected) {
 
-//        FrameLayout frag = (FrameLayout)findViewById(R.id.fragEditItems);
-//        frag.setVisibility(View.VISIBLE);
-//        EditItemFragment editItemFragment = new EditItemFragment();
-//        Bundle args = new Bundle();
-//        args.putString("Edit_Item",editedItem);
-//        args.putInt("Position",position);
-//        editItemFragment.setArguments(args);
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        //fragmentTransaction.add(R.id.fragEditItems,editItemFragment);
-//        fragmentTransaction.replace(R.id.fragEditItems,editItemFragment);
-//        fragmentTransaction.commit();
-
         Intent intentExtra = new Intent(this, AddNewItems.class);
         Bundle selectedbundle = new Bundle();
 
@@ -253,8 +220,9 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         OnButtonClickEdit(v);
     }
 
+    //on new item cancel
     private void OnCancelItems(View v){
-
+        Boolean result = checkItemUpdated(v);
         final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnEditItems.getLayoutParams();
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,RelativeLayout.TRUE);
         params.rightMargin = 10;
@@ -264,6 +232,11 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
 
     }
 
+    private Boolean checkItemUpdated(View v) {
+        return  false;
+    }
+
+    //click edit button
     private void OnButtonClickEdit(View v) {
         View child;
         for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
@@ -281,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         btnDeleteItems.setVisibility(View.VISIBLE);
     }
 
+    //click save button
     private void OnButtonClickDone(View v) {
         View child;
         for (int i = lvItems.getChildCount() - 1; i >= 0; i--) {
@@ -300,21 +274,10 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         //btnEditItems.setText("Edit");
     }
 
-    //send todo item for update
-    private void updateEditedText(String updatedString,int position) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy 'at' HH:mm:ss z");
-        Calendar c = Calendar.getInstance();
-        String currentDate = sdf.format(new Date());
-
-        TodoItem newItem = new TodoItem(updatedString,currentDate,"Low");
-
-        arrayofItems.set(position,newItem);
-        itemsAdapter.notifyDataSetChanged();
-        writeItems();
-    }
-
     // delete all selected items
-    private void OnDeleteItems(View v) {
+    private void OnDeleteItems() {
+        View currentFocus = getWindow().getCurrentFocus();
+
         View child;
         for (int i = lvItems.getChildCount()-1;i >=0; i--){
             child = lvItems.getChildAt(i);
@@ -327,19 +290,13 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
             }
         }
 
-        OnCancelItems(v);
+        OnCancelItems(currentFocus.getRootView());
         count = arrayofItems.size();
         textViewItemsCount.setText(String.valueOf(count) + " Notes");
 
     }
 
     private void onShowModalBox(View v) {
-
-//        FragmentManager fm = getSupportFragmentManager();
-//        ModalFragment modalFragment = ModalFragment.newInstance("MSG_DELETE");
-//        modalFragment.show(fm,"fragment_modal");
-
-        //DialogFragment newFragment = ModalFragment.newInstance("MSG_DELETE");
         DialogFragment newFragment = ModalFragment.newInstance("MSG_DELETE");
         newFragment.show(getFragmentManager(),"fragment_modal");
     }
@@ -385,11 +342,13 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         }
     }
 
-    public void doPositiveClick() {
+    public void onOkSelected() {
+        OnDeleteItems();
         
     }
 
-    public void doNegativeClick() {
+    public void onCancelSelected() {
+
     }
 }
 

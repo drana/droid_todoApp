@@ -1,5 +1,6 @@
 package dipen.todoapp;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.net.ParseException;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
-public class AddNewItems extends AppCompatActivity {
+public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnFragmentInteractionListener{
 
     ImageButton btnSave;
     ImageButton btnCancel;
@@ -167,10 +168,27 @@ public class AddNewItems extends AppCompatActivity {
     }
 
     private void OnCancelItem(View v) {
-        Intent intent = new Intent(AddNewItems.this,MainActivity.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+        itemText = "";
+
+        if(etNewItem !=null) {
+            itemText = etNewItem.getText().toString();
+            itemDueDate = getDueDate();
+            itemPriority = spinPriority.getSelectedItem().toString();
+        }
+        if(!selectedItem.equals(itemText)) {
+            DialogFragment newFragment = ModalFragment.newInstance("MSG_CLOSE");
+            newFragment.show(getFragmentManager(),"fragment_modal");
+
+        }
+        else {
+            Intent intent = new Intent(AddNewItems.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        }
+
+
 
     }
 
@@ -243,5 +261,20 @@ public class AddNewItems extends AppCompatActivity {
     }
 
 
+    public void onOkSelected() {
 
+        Intent intent = new Intent(AddNewItems.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
+
+    public void onCancelSelected() {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(int Value) {
+
+    }
 }
