@@ -31,7 +31,6 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
     DatePicker dueDate;
 
     String isUpdateText = "0";
-    int position = 0;
     private String itemText;
     private String itemDueDate;
     private String itemPriority;
@@ -39,6 +38,7 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
     private String selectedItem;
     private String selectedDate;
     private String selectedPriority;
+    private int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,7 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
             selectedItem = editbundle.getString("EDIT_SELECTED_ITEM");
             selectedDate = editbundle.getString("EDIT_SELECTED_DATE");
             selectedPriority = editbundle.getString("EDIT_SELECTED_PRIORITY");
+            position = editbundle.getInt("EDIT_SELECTED_POSITION");
 
 
             if(selectedItem !=null && !selectedItem.isEmpty()) {
@@ -213,6 +214,7 @@ public class AddNewItems extends AppCompatActivity implements  ModalFragment.OnF
         updatebundle.putString("UPDATED_NEW_ITEM",itemText);
         updatebundle.putString("UPDATED_ITEM_DUE_DATE",itemDueDate);
         updatebundle.putString("UPDATED_ITEM_PRIORITY",itemPriority);
+        updatebundle.putInt("UPDATED_ITEM_POSITION",position);
         intentExtra.putExtras(updatebundle);
         startActivity(intentExtra);
     }

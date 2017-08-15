@@ -90,46 +90,6 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
 
     }
 
-    //update the selected item
-    private void onUpdateItemIntent() {
-        //retrieve data from updated text
-        if(getIntent().hasExtra("UPDATED_NEW_ITEM")){
-            Bundle updatedbundle = getIntent().getExtras();
-            String updatedItem = updatedbundle.getString("UPDATED_NEW_ITEM");
-            String updatedPriority = updatedbundle.getString("UPDATED_ITEM_DUE_DATE");
-            String updatedDate = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
-
-
-            if (updatedItem != null && !updatedItem.isEmpty()) {
-                TodoItem updateItem = new TodoItem(updatedItem,updatedDate,updatedPriority);
-
-                arrayofItems.set(textPosition,updateItem);
-                itemsAdapter.notifyDataSetChanged();
-                writeItems();
-            }
-
-        }
-    }
-
-    //save new item
-    private void onSaveItemIntent() {
-        if(getIntent().hasExtra("SAVE_NEW_ITEM")){
-            Bundle saveBundle = getIntent().getExtras();
-
-            String item = saveBundle.getString("SAVE_NEW_ITEM");
-            String itemPriority = saveBundle.getString("SAVE_ITEM_PRIORITY");
-            String formatedDate = saveBundle.getString("SAVE_ITEM_DUE_DATE");
-            TodoItem newItem = new TodoItem(item,formatedDate,itemPriority);
-
-            if (newItem != null) {
-                itemsAdapter.add(newItem);
-                count = arrayofItems.size();
-                textViewItemsCount.setText(String.valueOf(count) + " Notes");
-                writeItems();
-            }
-        }
-    }
-
     //listener for item list changes
     private void setupListViewListener() {
 
@@ -139,9 +99,9 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 textPosition = position;
 
-                 selectedItem = arrayofItems.get(position).task;
-                 selectedDate = arrayofItems.get(position).taskDate;
-                 selectedPriority = arrayofItems.get(position).taskPriority;
+                selectedItem = arrayofItems.get(position).task;
+                selectedDate = arrayofItems.get(position).taskDate;
+                selectedPriority = arrayofItems.get(position).taskPriority;
                 onEditItemSelected(selectedItem, selectedDate,selectedPriority);
             }
         });
@@ -180,10 +140,6 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         btnCancelEditItem.setOnClickListener(btnClickListener);
     }
 
-    private void OnCancelEditItems(View v) {
-        OnCancelItems(v);
-    }
-
     //add new item button clicked
     private void OnAddNewItem(View view) {
 
@@ -192,6 +148,25 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+    }
+
+    //save new item
+    private void onSaveItemIntent() {
+        if(getIntent().hasExtra("SAVE_NEW_ITEM")){
+            Bundle saveBundle = getIntent().getExtras();
+
+            String item = saveBundle.getString("SAVE_NEW_ITEM");
+            String itemPriority = saveBundle.getString("SAVE_ITEM_PRIORITY");
+            String formatedDate = saveBundle.getString("SAVE_ITEM_DUE_DATE");
+            TodoItem newItem = new TodoItem(item,formatedDate,itemPriority);
+
+            if (newItem != null) {
+                itemsAdapter.add(newItem);
+                count = arrayofItems.size();
+                textViewItemsCount.setText(String.valueOf(count) + " Notes");
+                writeItems();
+            }
+        }
     }
 
     //display updated todo item
@@ -203,9 +178,31 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         selectedbundle.putString("EDIT_SELECTED_ITEM",itemSelected);
         selectedbundle.putString("EDIT_SELECTED_DATE",dateSelected);
         selectedbundle.putString("EDIT_SELECTED_PRIORITY",prioritySelected);
+        selectedbundle.putInt("EDIT_SELECTED_POSITION",textPosition);
         intentExtra.putExtras(selectedbundle);
 
         startActivity(intentExtra);
+    }
+
+    //update the selected item
+    private void onUpdateItemIntent() {
+        //retrieve data from updated text
+        if(getIntent().hasExtra("UPDATED_NEW_ITEM")){
+            Bundle updatedbundle = getIntent().getExtras();
+            String updatedItem = updatedbundle.getString("UPDATED_NEW_ITEM");
+            String updatedPriority = updatedbundle.getString("UPDATED_ITEM_DUE_DATE");
+            String updatedDate = updatedbundle.getString("UPDATED_ITEM_PRIORITY");
+            int updatedPosition = updatedbundle.getInt("UPDATED_ITEM_POSITION");
+
+
+            if (updatedItem != null && !updatedItem.isEmpty()) {
+                TodoItem updateItem = new TodoItem(updatedItem,updatedDate,updatedPriority);
+                arrayofItems.set(updatedPosition,updateItem);
+                itemsAdapter.notifyDataSetChanged();
+                writeItems();
+            }
+
+        }
     }
 
     //edit button clicked
@@ -230,6 +227,10 @@ public class MainActivity extends AppCompatActivity implements  ModalFragment.On
         btnCancelEditItem.setVisibility(View.INVISIBLE);
         OnButtonClickDone(v);
 
+    }
+
+    private void OnCancelEditItems(View v) {
+        OnCancelItems(v);
     }
 
     private Boolean checkItemUpdated(View v) {

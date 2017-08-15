@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">2 do App</string>
+    <string name="app_name">2Doo App</string>
     <string name="Add_Item">Add</string>
     <string name="textbox">Add New Items</string>
     <string name="title_activity_edit_item">EditItem</string>
     <string name="Save">Save</string>
-    <string name="app_tittle">2Do</string>
+    <string name="app_tittle">2Doo</string>
     <string name="edit_button">Edit</string>
     <string name="done_button">Done</string>
     <string name="alert_dialog_ok">Ok</string>
